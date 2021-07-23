@@ -1,6 +1,8 @@
 <template>
   <q-toolbar>
     <q-btn stretch flat label="Home" to="/" />
+    <q-btn stretch flat label="Chi siamo" to="/chiSiamo" />
+    <q-btn stretch flat label="Visualizza l'informativa" to="/informativa" />
     <q-space />
     <q-toolbar-title>Tamponati</q-toolbar-title>
     <q-space />

@@ -1,1 +1,37 @@
 // app global css in SCSS form
+.chiSiamo{
+    position: center;
+    text-align: center;
+}
+div.riguadroPersona img {
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+  }
+.riguadroPersona {
+    float: left;
+    width: 33%;
+    border-radius: 50%;
+    text-align: center;
+}
+.riguadroPersona:hover {
+     
+}
+
+p.desc {
+    text-align: center;
+    font-size: 30px;
+}
+
+@media only screen and (max-width: 700px) {
+    .riguadroPersona {
+      width: 49.99999%;
+      margin: 0px 0;
+    }
+  }
+  
+  @media only screen and (max-width: 500px) {
+    .riguadroPersona {
+      width: 90%;
+    }
+  }
