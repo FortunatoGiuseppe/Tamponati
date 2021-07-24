@@ -12,7 +12,7 @@
       <q-btn stretch flat to="/" @click="logout">Logout</q-btn>
     </template>
     <template v-else>
-      <q-btn stretch flat label="Voglio Convenzionarmi" icon="biotech" to="/registerLaboratory" />
+      <q-btn stretch flat label="Voglio Convenzionarmi" icon="biotech" to="/registerLaboratory"/>
       <q-btn stretch flat label="Login" icon="login" to="/login" />
       <q-btn stretch flat label="Register" icon="person" to="/register" />
     </template>

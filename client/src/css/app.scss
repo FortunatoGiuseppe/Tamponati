@@ -33,9 +33,14 @@ li.inform {
   margin-top: -1px; 
   padding: 12px; 
 }
-p.informTitle {
-    font-size:4.4vw;
+p.informTitle , h2.chiSiamo {
+    font-size:4.5vw;
     text-align: center;
+    font-weight: bold;
+    margin: 20px 5px 5px 5px;
+}
+h4.chiSiamo {
+  margin: 5px 5px 20px 5px;
 }
 h4.inform {
   margin: 50px 0px 20px 0px;
@@ -54,7 +59,7 @@ h4.inform {
     p.desc , p.inform , li.inform{
       font-size:2.9vw;
     }
-    h4.inform {
+    h4.inform , h4.chiSiamo {
       font-size:3.9vw;
     }
   }
@@ -63,28 +68,54 @@ h4.inform {
     p.desc , p.inform , li.inform{    
       font-size:2.5vw;
     }
-    h4.inform {
+    h4.inform , h4.chiSiamo {
       font-size:3.5vw;
     }
     .tema{
       margin-left: 85px;
       margin-right: 85px;
     }
+
   }
   @media only screen and (min-width: 1150px) {
     p.desc , p.inform , li.inform{    
       font-size:30px;
     }
-    h4.inform {
+    h4.inform , h4.chiSiamo{
       font-size:40px;
     }
-    p.informTitle {
+    p.informTitle , h2.chiSiamo{
       font-size:50px;
     }
     .tema{
       margin-left: 145px;
       margin-right: 145px;
     }
+
   }
 
 
+
+ 
+
+  //NAVBAR 
+/*
+a.q-btn:hover {
+  font-size: ;
+}
+*/
+a.q-btn {
+  font-size: 1vw;
+}
+@media only screen and (max-width: 1000px) { 
+  a.q-btn {
+    font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 700px) { 
+  i.notranslate{
+    font-size: 20px;
+  }
+
+} 
