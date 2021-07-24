@@ -2,12 +2,15 @@
   <q-toolbar>
     <q-btn stretch flat label="Home" to="/" />
     <q-space />
-    <q-toolbar-title>Tamponati</q-toolbar-title>
+    <q-toolbar-title stretch flat>Tamponati</q-toolbar-title>
     <q-space />
     <template v-if="isAuthenticated">
-      <q-btn stretch flat :label="user.displayName" @click="logout" />
+      <q-btn stretch flat to="/prenota">Prenota Tampone</q-btn>
+      <q-btn stretch flat to="/" :label="user.displayName" />
+      <q-btn stretch flat to="/" @click="logout">Logout</q-btn>
     </template>
     <template v-else>
+      <q-btn stretch flat label="Voglio Convenzionarmi" icon="biotech" to="/registerLaboratory" />
       <q-btn stretch flat label="Login" icon="login" to="/login" />
       <q-btn stretch flat label="Register" icon="person" to="/register" />
     </template>

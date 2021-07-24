@@ -50,8 +50,8 @@
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
         <q-stepper-navigation>
-          <q-btn @click="step = 4" type="submit" color="primary" label="Registrati" />
-          <q-btn flat @click="step = 2" color="primary" label="Indietro" class="q-ml-sm" />
+          <q-btn @click="step = 2" type="submit" color="primary" label="Registrati" />
+          <q-btn flat @click="step = 1" color="primary" label="Indietro" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
     </q-stepper>
@@ -62,10 +62,12 @@
 import { defineComponent, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { auth, db } from 'boot/firebase';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'RegisterCittadino',
   setup() {
+    const router = useRouter();
     const $q = useQuasar();
     const register = ref({});
 
@@ -78,15 +80,16 @@ export default defineComponent({
 
         const userCr = userCredential.user;
         await db.collection('users').doc(userCr.uid).set({
+          id_utente: 1,
           nome: register.value.nome,
           cognome: register.value.cognome,
           codicefiscale: register.value.codicefiscale,
           datanasciata: register.value.datanasciata,
           email: userCr.email,
           uid: userCr.uid,
-          id_utente: 1,
         });
         register.value = {};
+        router.push('/');
       } catch (error) {
         $q.notify({
           type: 'negative',
