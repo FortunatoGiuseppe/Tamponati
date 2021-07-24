@@ -26,6 +26,18 @@ const routes = [
     children: [{ path: '', component: () => import('pages/RegisterPage.vue') }],
   },
 
+  {
+    path: '/prenota',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/PrenotaTamponePage.vue') }],
+  },
+
+  {
+    path: '/registerLaboratory',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/RegisterLaboratoryPage.vue') }],
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {

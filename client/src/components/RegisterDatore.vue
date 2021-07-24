@@ -58,10 +58,21 @@
       </q-step>
 
       <q-step :name="3" title="Azienda" icon="business" :done="step > 3">
-        <q-input outlined v-model="register.nome" label="Partita IVA" :rules="[(val) => !!val || 'Campo Richiesto']" />
-        <q-input outlined v-model="register.nome" label="Indirizzo" :rules="[(val) => !!val || 'Campo Richiesto']" />
+        <q-input
+          outlined
+          v-model="register.nomeAzienda"
+          label="Nome Azienda"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
+        <q-input outlined v-model="register.pIva" label="Partita IVA" :rules="[(val) => !!val || 'Campo Richiesto']" />
+        <q-input
+          outlined
+          v-model="register.indirizzo"
+          label="Indirizzo"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
         <q-stepper-navigation>
-          <q-btn @click="step = 4" type="submit" color="primary" label="Registrati" />
+          <q-btn @click="step = 3" type="submit" color="primary" label="Registrati" />
           <q-btn flat @click="step = 2" color="primary" label="Indietro" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
@@ -73,10 +84,12 @@
 import { defineComponent, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { auth, db } from 'boot/firebase';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'RegisterDatore',
   setup() {
+    const router = useRouter();
     const $q = useQuasar();
     const register = ref({});
 
@@ -89,15 +102,19 @@ export default defineComponent({
 
         const userCr = userCredential.user;
         await db.collection('users').doc(userCr.uid).set({
+          id_utente: 3,
           nome: register.value.nome,
           cognome: register.value.cognome,
           codicefiscale: register.value.codicefiscale,
           datanasciata: register.value.datanasciata,
           email: userCr.email,
           uid: userCr.uid,
-          id: 3,
+          nomeAzienda: register.value.nomeAzienda,
+          pIva: register.value.pIva,
+          indirizzo: register.value.indirizzo,
         });
         register.value = {};
+        router.push('/');
       } catch (error) {
         $q.notify({
           type: 'negative',

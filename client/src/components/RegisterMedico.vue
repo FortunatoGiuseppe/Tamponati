@@ -11,6 +11,12 @@
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
         <q-input
+          outlined
+          v-model="register.codicemedico"
+          label="Codice Medico (codice appartenenza proprio sistema sanitario)"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
+        <q-input
           v-model="register.datanasciata"
           outlined
           label="Data di Nascita"
@@ -29,6 +35,12 @@
             </q-icon>
           </template>
         </q-input>
+
+        <q-stepper-navigation>
+          <q-btn @click="step = 2" color="primary" label="Continua" />
+        </q-stepper-navigation>
+      </q-step>
+      <q-step :name="2" title="Email e Password" :done="step > 2">
         <q-input
           outlined
           v-model="register.email"
@@ -44,9 +56,10 @@
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
 
-        <q-card-actions>
-          <q-btn type="submit" flat color="primary">Registrati</q-btn>
-        </q-card-actions>
+        <q-stepper-navigation>
+          <q-btn @click="step = 2" type="submit" color="primary" label="Registrati" />
+          <q-btn flat @click="step = 1" color="primary" label="Indietro" class="q-ml-sm" />
+        </q-stepper-navigation>
       </q-step>
     </q-stepper>
   </q-form>
@@ -56,10 +69,12 @@
 import { defineComponent, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { auth, db } from 'boot/firebase';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'RegisterMedico',
   setup() {
+    const router = useRouter();
     const $q = useQuasar();
     const register = ref({});
 
@@ -72,14 +87,17 @@ export default defineComponent({
 
         const userCr = userCredential.user;
         await db.collection('users').doc(userCr.uid).set({
+          id_utente: 2,
           nome: register.value.nome,
           cognome: register.value.cognome,
           codicefiscale: register.value.codicefiscale,
+          codicemedico: register.value.codicemedico,
           datanasciata: register.value.datanasciata,
           email: userCr.email,
           uid: userCr.uid,
         });
         register.value = {};
+        router.push('/');
       } catch (error) {
         $q.notify({
           type: 'negative',
