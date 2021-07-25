@@ -33,6 +33,12 @@ const routes = [
   },
 
   {
+    path: '/prenotaV2',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/visualizzaLaboratori.vue') }],
+  },
+
+  {
     path: '/registerLaboratory',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/RegisterLaboratoryPage.vue') }],

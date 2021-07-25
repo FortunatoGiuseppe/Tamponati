@@ -8,6 +8,7 @@
     <q-space />
     <template v-if="isAuthenticated">
       <q-btn stretch flat to="/prenota">Prenota Tampone</q-btn>
+      <q-btn stretch flat to="/prenotaV2">Visualizza Laboratori</q-btn>
       <q-btn stretch flat to="/" :label="user.displayName" />
       <q-btn stretch flat to="/" @click="logout">Logout</q-btn>
     </template>
