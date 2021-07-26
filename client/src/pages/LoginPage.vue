@@ -3,11 +3,11 @@
     <q-card class="q-mx-auto q-pa-lg" style="width: 30rem">
       <q-form @submit.prevent="doLogin">
         <q-card-section class="q-gutter-md">
-          <q-input outlined type="email" v-model="email" label="Email" :rules="[(val) => !!val || 'Campo Richiesto']" />
+          <q-input v-model="email" outlined type="email" label="Email" :rules="[(val) => !!val || 'Campo Richiesto']" />
           <q-input
+            v-model="password"
             outlined
             type="password"
-            v-model="password"
             label="Password"
             :rules="[(val) => !!val || 'Campo Richiesto']"
           />

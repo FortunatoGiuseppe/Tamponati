@@ -15,7 +15,7 @@ import ToolBar from 'src/components/ToolBar.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  components: { ToolBar },
   name: 'MainLayout',
+  components: { ToolBar },
 });
 </script>

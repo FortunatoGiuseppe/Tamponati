@@ -2,12 +2,13 @@
   <q-form @submit.prevent="doRegister">
     <q-stepper v-model="step" vertical color="primary" animated class="q-mx-auto q-pa-lg" style="width: 30rem">
       <q-step :name="1" title="Chi sono" :done="step > 1">
-        <q-input outlined v-model="register.nome" label="Nome" :rules="[(val) => !!val || 'Campo Richiesto']" />
-        <q-input outlined v-model="register.cognome" label="Cognome" :rules="[(val) => !!val || 'Campo Richiesto']" />
+        <q-input v-model="register.nome" outlined label="Nome" :rules="[(val) => !!val || 'Campo Richiesto']" />
+        <q-input v-model="register.cognome" outlined label="Cognome" :rules="[(val) => !!val || 'Campo Richiesto']" />
         <q-input
-          outlined
           v-model="register.codicefiscale"
+          outlined
           label="Codice Fiscale"
+          mask="AAAAAA##A##A###A"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
         <q-input
@@ -30,28 +31,28 @@
           </template>
         </q-input>
         <q-stepper-navigation>
-          <q-btn @click="step = 2" color="primary" label="Continua" />
+          <q-btn color="primary" label="Continua" @click="step = 2" />
         </q-stepper-navigation>
       </q-step>
 
       <q-step :name="2" title="Email e Password" :done="step > 2">
         <q-input
-          outlined
           v-model="register.email"
+          outlined
           label="Email"
           type="email"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
         <q-input
-          outlined
           v-model="register.password"
+          outlined
           type="password"
           label="Password"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
         <q-stepper-navigation>
-          <q-btn @click="step = 2" type="submit" color="primary" label="Registrati" />
-          <q-btn flat @click="step = 1" color="primary" label="Indietro" class="q-ml-sm" />
+          <q-btn type="submit" color="primary" label="Registrati" @click="step = 2" />
+          <q-btn flat color="primary" label="Indietro" class="q-ml-sm" @click="step = 1" />
         </q-stepper-navigation>
       </q-step>
     </q-stepper>
@@ -74,13 +75,13 @@ export default defineComponent({
     const doRegister = async () => {
       try {
         const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
-        auth.currentUser.updateProfile({
-          displayName: register.value.nome + ' ' + register.value.cognome,
-        });
+        // auth.currentUser.updateProfile({
+        //   displayName: register.value.nome + ' ' + register.value.cognome,
+        // });
 
         const userCr = userCredential.user;
         await db.collection('users').doc(userCr.uid).set({
-          id_utente: 1,
+          tipo_utente: 1,
           nome: register.value.nome,
           cognome: register.value.cognome,
           codicefiscale: register.value.codicefiscale,
@@ -88,7 +89,6 @@ export default defineComponent({
           email: userCr.email,
           uid: userCr.uid,
         });
-        register.value = {};
         router.push('/');
       } catch (error) {
         $q.notify({

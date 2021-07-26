@@ -1,131 +1,154 @@
 // app global css in SCSS form
-.chiSiamo , .inform{
-    text-align: center;
+
+.fadeIn-enter-active {
+  transition: all 0.4s ease;
 }
-div.riguadroPersona img {
-    width: 70%;
-    height: 70%;
-    border-radius: 50%;
-  }
-.riguadroPersona {
-    float: left;
-    width: 33%;
-    text-align: center;
+.fadeIn-enter-from {
+  opacity: 0;
 }
-p.desc {
-    text-align: center;
-   
+.fadeOut-leave-active {
+  transition: all 0.4s ease;
 }
-li.inform , p.inform {
-  text-align: left;
-  margin-left: 4%;
-  margin-right: 4%;
-}
-li.inform {
-  border: 1px solid rgb(192, 188, 188); 
-  margin-top: -1px; 
-  padding: 12px;
-}
-.tema{
-  border: 2px solid rgb(192, 188, 188);
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-top: -1px; 
-  padding: 12px; 
-}
-p.informTitle , h2.chiSiamo {
-    font-size:4.5vw;
-    text-align: center;
-    font-weight: bold;
-    margin: 20px 5px 5px 5px;
-}
-h4.chiSiamo {
-  margin: 5px 5px 20px 5px;
-}
-h4.inform {
-  margin: 50px 0px 20px 0px;
+.fadeOut-leave-to {
+  opacity: 0;
 }
 
-
-  @media only screen and (max-width: 500px) {
-    .riguadroPersona {
-      width: 99%;
-    }
-    p.desc , p.inform , li.inform{
-      font: size 25px;
-    }
-  }
-  @media only screen and (max-width: 700px) {
-    p.desc , p.inform , li.inform{
-      font-size:2.9vw;
-    }
-    h4.inform , h4.chiSiamo {
-      font-size:3.9vw;
-    }
-  }
-
-  @media only screen and (min-width: 701px) {
-    p.desc , p.inform , li.inform{    
-      font-size:2.5vw;
-    }
-    h4.inform , h4.chiSiamo {
-      font-size:3.5vw;
-    }
-    .tema{
-      margin-left: 85px;
-      margin-right: 85px;
-    }
-
-  }
-  @media only screen and (min-width: 1150px) {
-    p.desc , p.inform , li.inform{    
-      font-size:30px;
-    }
-    h4.inform , h4.chiSiamo{
-      font-size:40px;
-    }
-    p.informTitle , h2.chiSiamo{
-      font-size:50px;
-    }
-    .tema{
-      margin-left: 145px;
-      margin-right: 145px;
-    }
-
-  }
-
-  //LISTA LABORATORI
-  .my-card {
-    float: left; 
-    width: 250px;
-    margin: 20px;
-  }
-  .divFiltri{
-    text-align: center;
-    float: left;
-    margin: 20px;
-    width: 100%;
-  }
- 
-
-  //NAVBAR 
-/*
-a.q-btn:hover {
-  font-size: ;
+.rightIn-enter-active {
+  transition: all 0.3s ease-out;
 }
-*/
-a.q-btn {
-  font-size: 1vw;
+.rightIn-enter-from {
+  opacity: 0;
+  transform: TranslateX(50%);
 }
-@media only screen and (max-width: 1000px) { 
-  a.q-btn {
-    font-size: 10px;
+.rightOut-leave-active {
+  transition: all 0.3s ease-in;
+}
+.rightOut-leave-to {
+  opacity: 0;
+  transform: TranslateX(50%);
+}
+
+.leftIn-enter-active {
+  transition: all 0.3s ease-in;
+}
+.leftIn-enter-from {
+  opacity: 0;
+  transform: TranslateX(-50%);
+}
+.leftOut-leave-active {
+  transition: all 0.3s ease-in;
+}
+.leftOut-leave-to {
+  opacity: 0;
+  transform: TranslateX(-50%);
+}
+
+.scaleIn-enter-active {
+  transition: all 0.4s ease;
+}
+.scaleIn-enter-from {
+  transform: scale(0.6);
+}
+.scaleOut-leave-active {
+  position: absolute;
+  transition: all 0.4s ease;
+}
+.scaleOut-leave-to {
+  transform: scale(0.6);
+}
+
+.heightIn-enter-active {
+  transition: all 2s ease-out;
+  overflow: hidden;
+}
+.heightIn-enter-from {
+  max-height: 0 !important;
+}
+.heightIn-leave-active {
+  transition: all 2s ease-in;
+}
+.heightIn-leave-to {
+  max-height: 0 !important;
+  overflow: hidden;
+}
+
+.move-transition {
+  transition: all 0.4s ease;
+}
+
+.fade {
+  &-enter-active {
+    @extend .fadeIn-enter-active;
+  }
+  &-enter-from {
+    @extend .fadeIn-enter-from;
+  }
+  &-leave-active {
+    @extend .fadeOut-leave-active;
+  }
+  &-leave-to {
+    @extend .fadeOut-leave-to;
   }
 }
 
-@media only screen and (max-width: 700px) { 
-  i.notranslate{
-    font-size: 20px;
+.slide {
+  &-enter-active {
+    @extend .rightIn-enter-active;
   }
+  &-enter-from {
+    @extend .rightIn-enter-from;
+  }
+  &-leave-active {
+    @extend .leftOut-leave-active;
+  }
+  &-leave-to {
+    @extend .leftOut-leave-to;
+  }
+}
 
-} 
+.fadeIn-rightOut {
+  &-enter-active {
+    @extend .fadeIn-enter-active;
+  }
+  &-enter-from {
+    @extend .fadeIn-enter-from;
+  }
+  &-leave-active {
+    @extend .rightOut-leave-active;
+  }
+  &-leave-to {
+    @extend .rightOut-leave-to;
+  }
+}
+
+.fadeIn-leftOut {
+  &-enter-active {
+    @extend .fadeIn-enter-active;
+  }
+  &-enter-from {
+    @extend .fadeIn-enter-from;
+  }
+  &-leave-active {
+    @extend .leftOut-leave-active;
+  }
+  &-leave-to {
+    @extend .leftOut-leave-to;
+  }
+}
+
+.scale {
+  &-enter-active {
+    @extend .scaleIn-enter-active;
+  }
+  &-enter-from {
+    @extend .fadeIn-enter-from;
+    @extend .scaleIn-enter-from;
+  }
+  &-leave-active {
+    @extend .scaleOut-leave-active;
+  }
+  &-leave-to {
+    @extend .fadeOut-leave-to;
+    @extend .scaleOut-leave-to;
+  }
+}

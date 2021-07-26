@@ -5,43 +5,34 @@ const routes = [
     children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   },
   {
-    path: '/chiSiamo',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/chiSiamo.vue') }],
-  },
-  {
-    path: '/informativa',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/informativa.vue') }],
-  },
-  {
     path: '/login',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/LoginPage.vue') }],
   },
-
   {
     path: '/register',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/RegisterPage.vue') }],
   },
-
   {
-    path: '/prenota',
+    path: '/profilo',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/PrenotaTamponePage.vue') }],
+    children: [{ path: '', component: () => import('pages/RegisterPage.vue') }],
   },
-
   {
-    path: '/prenotaV2',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/visualizzaLaboratori.vue') }],
-  },
-
-  {
-    path: '/registerLaboratory',
+    path: '/registerlab',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/RegisterLaboratoryPage.vue') }],
+  },
+  {
+    path: '/profilolab',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/ProfiloLaboratoryPage.vue') }],
+  },
+  {
+    path: '/calendario',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/CalendarioLabPage.vue') }],
   },
 
   // Always leave this as last one,
