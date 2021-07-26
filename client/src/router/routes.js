@@ -30,6 +30,11 @@ const routes = [
     children: [{ path: '', component: () => import('pages/ProfiloLaboratoryPage.vue') }],
   },
   {
+    path: '/pageAmministratore',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/Amministratore.vue') }],
+  },
+  {
     path: '/calendario',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/CalendarioLabPage.vue') }],

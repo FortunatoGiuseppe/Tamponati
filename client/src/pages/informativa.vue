@@ -50,6 +50,6 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'informativa',
+  name: 'Informativa',
 });
 </script>
