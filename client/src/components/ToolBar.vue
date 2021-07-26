@@ -2,6 +2,8 @@
   <q-toolbar>
     <q-btn stretch flat icon="home" to="/" />
     <q-toolbar-title class="text-weight-bold">Tamponati App</q-toolbar-title>
+    <q-btn stretch flat label="Chi siamo" to="/chisiamo" />
+    <q-btn stretch flat label="Informativa" to="/informativa" />
     <q-space />
     <template v-if="state.tipo">
       <q-btn stretch flat :to="state.tipo == 4 ? '/profilolab' : '/profilo'" :label="state.nomecompleto" />
