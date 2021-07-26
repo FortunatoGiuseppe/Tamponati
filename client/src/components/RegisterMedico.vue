@@ -92,6 +92,7 @@ export default defineComponent({
           datanasciata: register.value.datanasciata,
           email: userCr.email,
           uid: userCr.uid,
+          approvato: false,
         });
         router.push('/');
       } catch (error) {

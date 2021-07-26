@@ -45,7 +45,7 @@
               </q-item>
             </template>
           </q-select>
-          <q-date v-model="data" landscape />
+          <q-date ref="calRef" v-model="data" landscape :options="dateDispo" />
         </q-card-section>
         <q-separator />
         <q-card-actions align="right">
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch, nextTick } from 'vue';
 import { useQuasar, useDialogPluginComponent, date } from 'quasar';
 import firebase from 'firebase/app';
 import { db } from 'boot/firebase';
@@ -75,6 +75,7 @@ export default defineComponent({
   emits: [...useDialogPluginComponent.emits],
   setup() {
     const { dialogRef, onDialogOK, onDialogHide } = useDialogPluginComponent();
+    const calRef = ref(null);
     const $q = useQuasar();
     const state = useState();
     const tipotampone = ref('');
@@ -114,6 +115,27 @@ export default defineComponent({
         });
     };
 
+    const dateDispo = ref([]);
+    const getDateDispo = async () => {
+      const giorniDispo = [];
+      db.collection('calendari')
+        .where('id_laboratorio', '==', id_laboratorio.value)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            giorniDispo.push(date.formatDate(doc.data().data.toDate(), 'YYYY/MM/DD'));
+          });
+        });
+      dateDispo.value = giorniDispo;
+      // await nextTick();
+      // calRef.value.setCalendarTo('2021', '8');
+      // await nextTick();
+      // calRef.value.setCalendarTo('2021', '7');
+      // console.log(dateDispo.value);
+    };
+
+    watch(id_laboratorio, getDateDispo);
+
     const doPrenotazione = async () => {
       if (!data.value || data.value.length < 4) {
         $q.notify({
@@ -147,6 +169,8 @@ export default defineComponent({
     };
 
     return {
+      calRef,
+      dateDispo,
       dialogRef,
       onDialogOK,
       onDialogHide,

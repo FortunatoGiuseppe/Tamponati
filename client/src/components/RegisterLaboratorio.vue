@@ -117,6 +117,7 @@ export default defineComponent({
           cap: register.value.cap,
           email: userCr.email,
           uid: userCr.uid,
+          approvato: false,
         });
         router.push('/');
       } catch (error) {
