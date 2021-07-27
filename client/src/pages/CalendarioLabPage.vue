@@ -105,7 +105,6 @@ export default defineComponent({
 
     db.collection('calendari')
       .where('id_laboratorio', '==', state.value.id)
-      .where('data', '>', firebase.firestore.Timestamp.fromDate(new Date()))
       .get()
       .then((querySnapshot) => {
         const cal = [];

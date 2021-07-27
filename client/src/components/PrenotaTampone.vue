@@ -45,7 +45,7 @@
               </q-item>
             </template>
           </q-select>
-          <q-date ref="calRef" v-model="data" landscape :options="dateDispo" />
+          <q-date v-model="data" landscape :options="dateDispo" />
         </q-card-section>
         <q-separator />
         <q-card-actions align="right">
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch, nextTick } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { useQuasar, useDialogPluginComponent, date } from 'quasar';
 import firebase from 'firebase/app';
 import { db } from 'boot/firebase';
@@ -75,26 +75,32 @@ export default defineComponent({
   emits: [...useDialogPluginComponent.emits],
   setup() {
     const { dialogRef, onDialogOK, onDialogHide } = useDialogPluginComponent();
-    const calRef = ref(null);
+    const showCalendar = ref(true);
     const $q = useQuasar();
     const state = useState();
+
     const tipotampone = ref('');
+    const provincia = ref('');
     const id_laboratorio = ref('');
     const data = ref('');
-    const provincia = ref('');
-    const optionsLaboratori = ref([]);
 
     const optionsProvince = ref([]);
     db.collection('province')
       .get()
       .then((querySnapshot) => {
-        const prov = [];
         querySnapshot.forEach((doc) => {
-          prov.push(doc.data());
+          optionsProvince.value.push(doc.data());
         });
-        optionsProvince.value = prov;
       });
 
+    watch(provincia, () => {
+      optionsLaboratori.value = [];
+      dateDispo.value = [];
+      id_laboratorio.value = '';
+      data.value = '';
+    });
+
+    const optionsLaboratori = ref([]);
     const getLabs = (val, update, abort) => {
       if (provincia.value.length < 2) {
         abort();
@@ -116,25 +122,22 @@ export default defineComponent({
     };
 
     const dateDispo = ref([]);
-    const getDateDispo = async () => {
-      const giorniDispo = [];
+    watch(id_laboratorio, async () => {
+      dateDispo.value = [];
       db.collection('calendari')
         .where('id_laboratorio', '==', id_laboratorio.value)
+        .where('data', '>=', firebase.firestore.Timestamp.fromDate(date.startOfDate(new Date(), 'day')))
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            giorniDispo.push(date.formatDate(doc.data().data.toDate(), 'YYYY/MM/DD'));
+            dateDispo.value.push(date.formatDate(doc.data().data.toDate(), 'YYYY/MM/DD'));
           });
+        })
+        .catch((error) => {
+          console.log(error);
+          dateDispo.value = [];
         });
-      dateDispo.value = giorniDispo;
-      // await nextTick();
-      // calRef.value.setCalendarTo('2021', '8');
-      // await nextTick();
-      // calRef.value.setCalendarTo('2021', '7');
-      // console.log(dateDispo.value);
-    };
-
-    watch(id_laboratorio, getDateDispo);
+    });
 
     const doPrenotazione = async () => {
       if (!data.value || data.value.length < 4) {
@@ -169,7 +172,7 @@ export default defineComponent({
     };
 
     return {
-      calRef,
+      showCalendar,
       dateDispo,
       dialogRef,
       onDialogOK,
