@@ -1,6 +1,26 @@
 <template>
   <q-page class="flex flex-center">
-    <section>
+      <div class="q-pa-md" style="width:70%">
+        <q-carousel 
+          v-model="slide"
+          animated
+          navigation
+          infinite
+          :autoplay="autoplay"
+          arrows
+          transition-prev="slide-right"
+          transition-next="slide-left"
+          @mouseenter="autoplay = false"
+          @mouseleave="autoplay = true"
+        >
+          <q-carousel-slide :name="1" img-src="../img/carousel1.jpg"></q-carousel-slide>
+          <q-carousel-slide :name="2" img-src="../img/carousel2.jpg"></q-carousel-slide>
+          <q-carousel-slide :name="3" img-src="../img/carousel3.jpg"></q-carousel-slide>
+          <q-carousel-slide :name="4" img-src="../img/carousel4.jpg"></q-carousel-slide>
+        </q-carousel>
+      </div>
+        <br><q-separator></q-separator><br>
+    <div class="q-pa-md" style="width:100%">
       <cittadino-home v-if="state.tipo && state.tipo == 1" />
       <div v-else-if="state.tipo && state.tipo == 2">
         <h1>Medico</h1>
@@ -13,17 +33,18 @@
         <h1>TAMPONATI</h1>
         <h2>Prenota il tuo tampone presso i laboratori piu vicini a te</h2>
       </div>
-    </section>
+    </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent, watchEffect } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
 import { useAuth } from '@vueuse/firebase/useAuth';
 import { db, auth } from 'boot/firebase';
 import { useState } from 'src/modules/useState.js';
 import CittadinoHome from 'src/components/CittadinoHome.vue';
 import LaboratorioHome from 'src/components/LaboratorioHome.vue';
+
 
 export default defineComponent({
   name: 'PageIndex',
@@ -31,7 +52,8 @@ export default defineComponent({
   setup() {
     const { isAuthenticated, user } = useAuth(auth);
     const state = useState();
-
+    const slide = 1;
+    const autopaly =true;
     watchEffect(() => {
       if (isAuthenticated.value && user.value && user.value.uid) {
         db.collection('users')
@@ -56,7 +78,7 @@ export default defineComponent({
       }
     });
 
-    return { state };
+    return { state , slide: ref(1),  autoplay: ref(true)};
   },
 });
 </script>
