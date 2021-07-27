@@ -1,5 +1,9 @@
 <template>
   <q-page class="flex flex-center">
+      <q-parallax 
+        src="../img/bg4.jpg" 
+        :height="707"
+      >
      <q-card class="my-card" flat bordered>
       <q-card-section vertical>
         <q-card-section class="q-pt-xs">
@@ -45,6 +49,7 @@
         </q-card-section>
       </q-card-section>
     </q-card>
+      </q-parallax> 
   </q-page>
 </template>
 

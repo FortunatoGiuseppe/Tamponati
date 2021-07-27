@@ -1,18 +1,18 @@
 <template>
   <q-toolbar>
-    <q-btn stretch flat icon="home" to="/" />
-    <q-toolbar-title class="text-weight-bold">Tamponati App</q-toolbar-title>
-    <q-btn stretch flat label="Chi siamo" to="/chisiamo" />
-    <q-btn stretch flat label="Informativa" to="/informativa" />
+    <q-btn class="toolBar_btn" stretch flat icon="home" to="/" />
+    <q-toolbar-title class=" toolBar_btn text-weight-bold">Tamponati App</q-toolbar-title>
+    <q-btn class="toolBar_btn" stretch flat label="Chi siamo" to="/chisiamo" />
+    <q-btn class="toolBar_btn" stretch flat label="Informativa" to="/informativa" />
     <q-space />
     <template v-if="state.tipo">
-      <q-btn stretch flat :to="state.tipo == 4 ? '/profilolab' : '/profilo'" :label="state.nomecompleto" />
-      <q-btn stretch flat icon="logout" title="Logout" @click="logout" />
+      <q-btn class="toolBar_btn" stretch flat :to="state.tipo == 4 ? '/profilolab' : '/profilo'" :label="state.nomecompleto" />
+      <q-btn class="toolBar_btn" stretch flat icon="logout" title="Logout" @click="logout" />
     </template>
     <template v-else>
-      <q-btn stretch flat label="Voglio Convenzionarmi" icon="biotech" to="/registerlab" />
-      <q-btn stretch flat label="Register" icon="person" to="/register" />
-      <q-btn stretch flat label="Login" icon="login" to="/login" />
+      <q-btn class="toolBar_btn" stretch flat label="Voglio Convenzionarmi" icon="biotech" to="/registerlab" />
+      <q-btn class="toolBar_btn" stretch flat label="Register" icon="person" to="/register" />
+      <q-btn class="toolBar_btn" stretch flat label="Login" icon="login" to="/login" />
     </template>
   </q-toolbar>
 </template>

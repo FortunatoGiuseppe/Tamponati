@@ -35,6 +35,11 @@ const routes = [
     children: [{ path: '', component: () => import('pages/Amministratore.vue') }],
   },
   {
+    path: '/pageASL',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/ASL.vue') }],
+  },
+  {
     path: '/calendario',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/CalendarioLabPage.vue') }],

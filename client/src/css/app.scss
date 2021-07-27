@@ -154,19 +154,36 @@
 }
 
 
+.info{
+  width:60%;
+  min-width:500px;
+}
+p.info{
+  font-size: 17px;
+}
  //NAVBAR 
-a.q-btn {
-  font-size: 1vw;
+.toolBar_btn {
+  font-size: 1.1vw;
 }
 @media only screen and (max-width: 1000px) { 
-  a.q-btn {
+  .toolBar_btn {
+    font-size: 11px;
+  }
+}
+@media only screen and (max-width: 1200px) { 
+  .info{
+    width:90%;
+  }
+  .parallax-info{
+    height: 4000px;
+  }
+}
+
+@media only screen and (max-width: 800px) { 
+  .info{
+    width:100%;
+  }
+  p.info{
     font-size: 10px;
   }
 }
-
-@media only screen and (max-width: 700px) { 
-  i.notranslate{
-    font-size: 20px;
-  }
-
-} 

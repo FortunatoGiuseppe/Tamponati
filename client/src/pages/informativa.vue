@@ -1,11 +1,18 @@
 <template>
   <q-page class="flex flex-center">
-       <q-card class="my-card q-pa-xl" style="width:1100px">
+      <q-parallax 
+        src="../img/bg7.jpg" 
+        :height="2450"
+        :speed="1"
+        style="margin-top:-100px"
+      >
+
+      <q-card class="info my-card q-pa-xs">
       <q-card-section vertical>
         <q-card-section class="q-pt-xs">
           <div class="text-overline">informativa</div>
-          <div class="text-h3 q-mt-sm q-mb-xs">INFORMATIVA UTENTI <br>e<br> CONSENSO INFORMATO
-          <br> AL TAMPONE PER COVID-19 <br>(CORONAVIRUS SARS-COV-2)</div>
+          <div class="text-h4 q-mt-sm q-mb-xs">INFORMATIVA UTENTI e CONSENSO INFORMATO
+          AL TAMPONE PER COVID-19 (CORONAVIRUS SARS-COV-2)</div>
           <br><q-separator></q-separator><br>
           <div class="text-h5 text-weight-bold">
               Che cos’è e come si esegue
@@ -50,11 +57,10 @@
           <div class="text-h5 text-weight-bold">
               Il Coronavirus:
           </div>
-          <div class="text-body1 text-justify">
+          <div class="text-body2 text-justify">
               I Coronavirus sono una vasta famiglia di virus noti per causare malattie che vanno dal comune
               raffreddore a malattie più gravi come la Sindrome respiratoria mediorientale (MERS) e la
-              Sindrome respiratoria acuta grave (SARS). I Coronavirus sono stati identificati a metà degli
-              anni ’60 e sono noti per infettare l'uomo ed alcuni animali. Ad oggi sono sette i coronavirus
+              Sindrome respiratoria acuta grave (SARS). Ad oggi sono sette i coronavirus
               noti per causare malattie negli esseri umani. Hanno morfologia rotondeggiante e dimensioni di
               100-150 nm di diametro, il loro nome deriva dal fatto che al microscopio elettronico a
               trasmissione, i virioni appaiono sferici con una forma a “corona”. Questo particolare aspetto è
@@ -81,7 +87,7 @@
 
       </q-card-section>
     </q-card>
-    
+    </q-parallax>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
       <q-btn fab icon="keyboard_arrow_up" color="primary"></q-btn>
     </q-page-scroller>
