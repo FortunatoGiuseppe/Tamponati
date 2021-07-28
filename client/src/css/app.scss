@@ -187,3 +187,11 @@ p.info{
     font-size: 10px;
   }
 }
+
+  #tabellaStatistici tr:nth-child(even){background-color: #00000008;
+  }
+  #tabellaStatistici th {
+    background-color: #448AFF;
+  }
+  #tabellaStatistici .q-table__bottom,
+  #tabellaStatistici thead tr:first-child th {background-color: #448AFF;}

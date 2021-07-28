@@ -1,10 +1,10 @@
 <template>
   <q-page class="flex flex-center">
-      <q-parallax 
-        src="../img/bg4.jpg" 
-        :height="707"
+      <q-img no-native-menu
+        src="../img/bg8.jpg" 
+        style="height: 1000px; object-fit: contain"
       >
-     <q-card class="my-card" flat bordered>
+     <q-card class="my-card absolute-center" flat bordered  style="background: rgb(0 0 0 / 78%);">
       <q-card-section vertical>
         <q-card-section class="q-pt-xs">
           <div class="text-overline">chi siamo</div>
@@ -24,7 +24,7 @@
                 <img src="../img/fortunato.jpg">
             </q-avatar>
             <q-card-actions align="center">
-                <q-item-label>Fortunato Giuseppe</q-item-label>
+                <q-item-label class="text-black">Fortunato Giuseppe</q-item-label>
             </q-card-actions>
           </q-card>
 
@@ -33,7 +33,7 @@
                 <img src="../img/alemanno.jpg">
             </q-avatar>
             <q-card-actions align="center">
-                <q-item-label>Alemanno Giuseppe</q-item-label>
+                <q-item-label class="text-black">Alemanno Giuseppe</q-item-label>
             </q-card-actions>
           </q-card>
 
@@ -42,14 +42,14 @@
                 <img src="../img/fortunato.jpg">
             </q-avatar>
             <q-card-actions align="center">
-                <q-item-label>Di Claudio Sabatina</q-item-label>
+                <q-item-label class="text-black">Di Claudio Sabatina</q-item-label>
             </q-card-actions>
           </q-card>
           
         </q-card-section>
       </q-card-section>
     </q-card>
-      </q-parallax> 
+      </q-img>
   </q-page>
 </template>
 

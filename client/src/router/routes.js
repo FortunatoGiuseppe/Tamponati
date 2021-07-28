@@ -30,12 +30,12 @@ const routes = [
     children: [{ path: '', component: () => import('pages/ProfiloLaboratoryPage.vue') }],
   },
   {
-    path: '/pageAmministratore',
+    path: '/amministratore',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/Amministratore.vue') }],
   },
   {
-    path: '/pageASL',
+    path: '/asl',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/ASL.vue') }],
   },

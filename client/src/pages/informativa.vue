@@ -7,7 +7,7 @@
         style="margin-top:-100px"
       >
 
-      <q-card class="info my-card q-pa-xs">
+      <q-card class="info my-card q-pa-xs absolute-center">
       <q-card-section vertical>
         <q-card-section class="q-pt-xs">
           <div class="text-overline">informativa</div>
@@ -88,7 +88,7 @@
       </q-card-section>
     </q-card>
     </q-parallax>
-    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+    <q-page-scroller position="bottom-right" :scroll-offset="400" :offset="[18, 18]">
       <q-btn fab icon="keyboard_arrow_up" color="primary"></q-btn>
     </q-page-scroller>
   </q-page>
