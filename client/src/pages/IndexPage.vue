@@ -19,21 +19,18 @@
         <q-carousel-slide :name="4" img-src="../img/carousel4.jpg"></q-carousel-slide>
       </q-carousel>
     </div>
-    <br /><q-separator></q-separator><br />
-    <div class="q-pa-md" style="width: 100%">
-      <cittadino-home v-if="state.tipo && state.tipo == 1" />
-      <div v-else-if="state.tipo && state.tipo == 2">
-        <h1>Medico</h1>
-      </div>
-      <div v-else-if="state.tipo && state.tipo == 3">
+    <section class="full-width">
+      <cittadino-home v-if="state.tipo_utente && state.tipo_utente == 1" />
+      <medico-home v-else-if="state.tipo_utente && state.tipo_utente == 2" />
+      <div v-else-if="state.tipo_utente && state.tipo_utente == 3">
         <h1>Datore di Lavoro</h1>
       </div>
-      <laboratorio-home v-else-if="state.tipo && state.tipo == 4" />
+      <laboratorio-home v-else-if="state.tipo_utente && state.tipo_utente == 4" />
       <div v-else>
         <h1>TAMPONATI</h1>
         <h2>Prenota il tuo tampone presso i laboratori piu vicini a te</h2>
       </div>
-    </div>
+    </section>
   </q-page>
 </template>
 
@@ -44,15 +41,17 @@ import { db, auth } from 'boot/firebase';
 import { useState } from 'src/modules/useState.js';
 import CittadinoHome from 'src/components/CittadinoHome.vue';
 import LaboratorioHome from 'src/components/LaboratorioHome.vue';
+import MedicoHome from 'src/components/MedicoHome.vue';
 
 export default defineComponent({
   name: 'PageIndex',
-  components: { CittadinoHome, LaboratorioHome },
+  components: { CittadinoHome, LaboratorioHome, MedicoHome },
   setup() {
     const { isAuthenticated, user } = useAuth(auth);
     const state = useState();
-    const slide = 1;
+     const slide = 1;
     const autopaly = true;
+
     watchEffect(() => {
       if (isAuthenticated.value && user.value && user.value.uid) {
         db.collection('users')
@@ -71,13 +70,13 @@ export default defineComponent({
                 state.value.cognome = userDB.cognome;
                 state.value.cf = userDB.codicefiscale;
               }
-              state.value.tipo = userDB.tipo_utente;
+              state.value.tipo_utente = userDB.tipo_utente;
             }
           });
       }
     });
 
-    return { state, slide: ref(1), autoplay: ref(true) };
+    return { state,  slide: ref(1), autoplay: ref(true)  };
   },
 });
 </script>

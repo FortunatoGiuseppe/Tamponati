@@ -7,6 +7,28 @@
         </q-card-section>
         <q-separator />
         <q-card-section class="col q-gutter-md">
+          <q-input
+            v-if="state.tipo_utente == 2 || state.tipo_utente == 3"
+            v-model="register.nome"
+            outlined
+            label="Nome"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
+          <q-input
+            v-if="state.tipo_utente == 2 || state.tipo_utente == 3"
+            v-model="register.cognome"
+            outlined
+            label="Cognome"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
+          <q-input
+            v-if="state.tipo_utente == 2 || state.tipo_utente == 3"
+            v-model="register.codicefiscale"
+            outlined
+            label="Codice Fiscale"
+            mask="AAAAAA##A##A###A"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
           <q-select
             v-model="tipotampone"
             outlined
@@ -75,7 +97,6 @@ export default defineComponent({
   emits: [...useDialogPluginComponent.emits],
   setup() {
     const { dialogRef, onDialogOK, onDialogHide } = useDialogPluginComponent();
-    const showCalendar = ref(true);
     const $q = useQuasar();
     const state = useState();
 
@@ -83,6 +104,7 @@ export default defineComponent({
     const provincia = ref('');
     const id_laboratorio = ref('');
     const data = ref('');
+    const register = ref({});
 
     const optionsProvince = ref([]);
     db.collection('province')
@@ -150,16 +172,32 @@ export default defineComponent({
       }
 
       try {
-        await db.collection('prenotazioni').add({
-          tipotampone: tipotampone.value,
-          id_laboratorio: id_laboratorio.value,
-          data: firebase.firestore.Timestamp.fromDate(date.extractDate(data.value, 'YYYY/MM/DD')),
-          nome: state.value.nome,
-          cognome: state.value.cognome,
-          codicefiscale: state.value.cf,
-          confermato: 0,
-          esito: null,
-        });
+        if (state.value.tipo_utente == 1) {
+          await db.collection('prenotazioni').add({
+            prenotatoda: state.value.id,
+            tipotampone: tipotampone.value,
+            id_laboratorio: id_laboratorio.value,
+            data: firebase.firestore.Timestamp.fromDate(date.extractDate(data.value, 'YYYY/MM/DD')),
+            nome: state.value.nome,
+            cognome: state.value.cognome,
+            codicefiscale: state.value.cf,
+            confermato: 0,
+            esito: null,
+          });
+        } else {
+          await db.collection('prenotazioni').add({
+            prenotatoda: state.value.id,
+            tipotampone: tipotampone.value,
+            id_laboratorio: id_laboratorio.value,
+            data: firebase.firestore.Timestamp.fromDate(date.extractDate(data.value, 'YYYY/MM/DD')),
+            nome: register.value.nome,
+            cognome: register.value.cognome,
+            codicefiscale: register.value.codicefiscale,
+            confermato: 0,
+            esito: null,
+          });
+        }
+
         onDialogOK();
       } catch (error) {
         $q.notify({
@@ -172,7 +210,6 @@ export default defineComponent({
     };
 
     return {
-      showCalendar,
       dateDispo,
       dialogRef,
       onDialogOK,
@@ -186,6 +223,8 @@ export default defineComponent({
       id_laboratorio,
       data,
       doPrenotazione,
+      register,
+      state,
     };
   },
 });

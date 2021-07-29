@@ -39,7 +39,7 @@
 
           <q-card class="my-card q-pa-xs">
             <q-avatar rounded size="200px">
-                <img src="../img/fortunato.jpg">
+                <img src="../img/diclaudio.jpeg">
             </q-avatar>
             <q-card-actions align="center">
                 <q-item-label class="text-black">Di Claudio Sabatina</q-item-label>

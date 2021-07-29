@@ -8,6 +8,7 @@
           v-model="register.codicefiscale"
           outlined
           label="Codice Fiscale"
+          mask="AAAAAA##A##A###A"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
         <q-input

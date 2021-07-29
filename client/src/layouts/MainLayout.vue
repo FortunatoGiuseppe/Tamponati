@@ -5,7 +5,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <router-view class="q-py-md" />
     </q-page-container>
   </q-layout>
 </template>
