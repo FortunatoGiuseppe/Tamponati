@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center" style="padding:0">
       <q-img no-native-menu
         src="../img/bg8.jpg" 
         style="height: 1000px; object-fit: contain"

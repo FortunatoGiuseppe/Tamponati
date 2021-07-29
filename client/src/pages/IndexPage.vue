@@ -1,25 +1,12 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md" style="width: 100%">
-      <q-carousel
-        v-model="slide"
-        animated
-        navigation
-        infinite
-        :autoplay="autoplay"
-        arrows
-        transition-prev="slide-right"
-        transition-next="slide-left"
-        @mouseenter="autoplay = false"
-        @mouseleave="autoplay = true"
+  <q-page class="flex flex-center" style="padding:0;">
+     <q-parallax 
+        src="../img/IndexImage.jpg" 
+        :height="1100"
+        :speed="1"
+        style="padding:0px"
       >
-        <q-carousel-slide :name="1" img-src="../img/carousel1.jpg"></q-carousel-slide>
-        <q-carousel-slide :name="2" img-src="../img/carousel2.jpg"></q-carousel-slide>
-        <q-carousel-slide :name="3" img-src="../img/carousel3.jpg"></q-carousel-slide>
-        <q-carousel-slide :name="4" img-src="../img/carousel4.jpg"></q-carousel-slide>
-      </q-carousel>
-    </div>
-    <section class="full-width">
+    <section class="full-width text-white" style="background: rgb(0 0 0 / 78%);">
       <cittadino-home v-if="state.tipo_utente && state.tipo_utente == 1" />
       <medico-home v-else-if="state.tipo_utente && state.tipo_utente == 2" />
       <div v-else-if="state.tipo_utente && state.tipo_utente == 3">
@@ -31,6 +18,7 @@
         <h2>Prenota il tuo tampone presso i laboratori piu vicini a te</h2>
       </div>
     </section>
+    </q-parallax >
   </q-page>
 </template>
 

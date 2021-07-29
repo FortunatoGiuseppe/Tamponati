@@ -3,7 +3,7 @@
     <p class="text-center text-h5">Laboratorio</p>
     <div class="q-pa-md">
       <q-table
-        title="Da Confermare"
+        title="Prenotazioni da Confermare"
         :rows="daConfermare"
         :columns="colConfermare"
         :pagination="{ page: 1, daConfermarePerPage: 0 }"
@@ -29,20 +29,21 @@
 
         <template #body-cell-confermato="props">
           <q-td :props="props">
-            <q-checkbox v-model="props.row.confermato" @update:model-value="confermaTampone(props.row)" />
+            <q-checkbox v-model="props.row.confermato" 
+            valore-indeterminato = "null"
+            @update:model-value="confermaTampone(props.row)"/>
           </q-td>
         </template>
       </q-table>
     </div>
     <div class="q-pa-md">
       <q-table
-        title="Da Refertare"
+        title="Tamponi da Refertare"
         :rows="daRefertare"
         :columns="colRefertare"
         :pagination="{ page: 1, daConfermarePerPage: 0 }"
         row-key="id"
         binary-state-sort
-        hide-bottom
         bordered
         flat
       >
@@ -74,8 +75,8 @@ export default defineComponent({
   name: 'LaboratorioHome',
   setup() {
     const state = useState();
-
     const optionsEsito = [
+
       {
         label: 'Positivo',
         value: true,
