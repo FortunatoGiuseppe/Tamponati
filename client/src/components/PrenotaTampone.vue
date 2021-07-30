@@ -199,6 +199,12 @@ export default defineComponent({
         }
 
         onDialogOK();
+        $q.notify({
+          type: 'positive',
+          position: 'top',
+          message: 'Prenotazione registrata clicca il messaggio',
+          forever: true, 
+        });
       } catch (error) {
         $q.notify({
           type: 'negative',

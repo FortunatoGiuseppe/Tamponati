@@ -11,10 +11,12 @@
     "lint": "eslint --ext .js,.vue ./"
   },
   "dependencies": {
+    "@j-t-mcc/vue3-chartjs": "^1.1.2",
     "@quasar/extras": "^1.10.9",
     "@vueuse/core": "^5.1.4",
     "@vueuse/firebase": "^5.1.4",
     "axios": "^0.21.1",
+    "chart.js": "^3.5.0",
     "core-js": "^3.6.5",
     "firebase": "^8.8.0",
     "quasar": "^2.0.0",

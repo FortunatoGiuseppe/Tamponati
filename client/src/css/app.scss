@@ -171,7 +171,7 @@ p.info{
   }
 }
 @media only screen and (max-width: 1200px) { 
-  .info{
+  .info,.chiSiamo{
     width:90%;
   }
   .parallax-info{
@@ -180,12 +180,23 @@ p.info{
 }
 
 @media only screen and (max-width: 800px) { 
-  .info{
+  .info,.chiSiamo{
     width:100%;
+    padding-top:145px
+  }
+  .cartaChiSiamo{
+    width: 100px;
   }
   p.info{
     font-size: 10px;
   }
+  h1.home{
+    font-size: 45px;
+  }
+  h3.home{
+    font-size: 30px;
+  }
+
 }
 
   #tabellaStatistici tr:nth-child(even){background-color: #00000008;
@@ -195,3 +206,22 @@ p.info{
   }
   #tabellaStatistici .q-table__bottom,
   #tabellaStatistici thead tr:first-child th {background-color: #448AFF;}
+
+  .sfondoHome, .sfondoChiSiamo{
+    background-color: #cccccc;
+    height: 900px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+  .sfondoHome{
+    background-image: url("../img/IndexImage.jpg"); 
+  }
+  .sfondoChiSiamo{
+    background-image: url("../img/bg8.jpg"); 
+  }
+  .sfondoHomeComponents{
+    background: rgb(0 0 0 / 78%); 
+    padding:20px;
+  }

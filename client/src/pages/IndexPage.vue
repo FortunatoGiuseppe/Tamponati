@@ -1,35 +1,19 @@
 <template>
-  <q-page class="flex">
-    <section class="full-width">
-      <cittadino-home v-if="state.tipo_utente && state.tipo_utente == 1" />
-      <medico-home v-else-if="state.tipo_utente && state.tipo_utente == 2" />
-      <datore-home v-else-if="state.tipo_utente && state.tipo_utente == 3" />
-      <laboratorio-home v-else-if="state.tipo_utente && state.tipo_utente == 4" />
-      <amministratore-home v-else-if="state.tipo_utente && state.tipo_utente == 5" />
-      <asl-home v-else-if="state.tipo_utente && state.tipo_utente == 6" />
+  <q-page class="flex" style="padding:0px;">
+    <section class="full-width sfondoHome">
+      <cittadino-home v-if="state.tipo_utente && state.tipo_utente == 1"           class="text-white sfondoHomeComponents"/>
+      <medico-home v-else-if="state.tipo_utente && state.tipo_utente == 2"         class="text-white sfondoHomeComponents"/>
+      <datore-home v-else-if="state.tipo_utente && state.tipo_utente == 3"         class="text-white sfondoHomeComponents"/>
+      <laboratorio-home v-else-if="state.tipo_utente && state.tipo_utente == 4"    class="text-white sfondoHomeComponents"/>
+      <amministratore-home v-else-if="state.tipo_utente && state.tipo_utente == 5" class="bg-white"/>
+      <asl-home v-else-if="state.tipo_utente && state.tipo_utente == 6"            class="text-white sfondoHomeComponents"/>
 
-      <div v-else>
-        <div class="q-pa-md" style="width: 100%">
-          <q-carousel
-            v-model="slide"
-            animated
-            navigation
-            infinite
-            :autoplay="autoplay"
-            arrows
-            transition-prev="slide-right"
-            transition-next="slide-left"
-            @mouseenter="autoplay = false"
-            @mouseleave="autoplay = true"
-          >
-            <q-carousel-slide :name="1" img-src="../img/carousel1.jpg"></q-carousel-slide>
-            <q-carousel-slide :name="2" img-src="../img/carousel2.jpg"></q-carousel-slide>
-            <q-carousel-slide :name="3" img-src="../img/carousel3.jpg"></q-carousel-slide>
-            <q-carousel-slide :name="4" img-src="../img/carousel4.jpg"></q-carousel-slide>
-          </q-carousel>
+      <div v-else>  
+    
+        <div class="full-width text-white absolute-center"  style="background: rgb(0 0 0 / 78%); padding:20px">
+        <h1 class="home">TAMPONATI</h1>
+        <h3 class="home">Prenota il tuo tampone presso i laboratori piu vicini a te</h3>
         </div>
-        <h1>TAMPONATI</h1>
-        <h2>Prenota il tuo tampone presso i laboratori piu vicini a te</h2>
       </div>
     </section>
   </q-page>

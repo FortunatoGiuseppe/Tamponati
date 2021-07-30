@@ -64,7 +64,6 @@
 
               <template #top>
                 <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
-
                 <q-select
                   v-model="visibleColumns"
                   multiple
@@ -87,30 +86,57 @@
         <q-tab-panel name="two">
           <div class="q-pa-md">
             <q-table
-              title="Treats"
+              id="tabellaStatistici"
+              title="Esiti tamponi:"
+              table-header-class="bg-blue-12 text-white"
               :rows="risultati"
               :columns="columns"
               row-key="name"
               :visible-columns="visibleColumns"
             >
+            <template #header-cell-codicefiscale="props">
+                <q-th :props="props">
+                  <q-icon name="badge" size="2em"></q-icon>
+                  {{ props.col.label }}
+                </q-th>
+              </template>
+              <template #header-cell-data="props">
+                <q-th :props="props">
+                  <q-icon name="history" size="2em"></q-icon>
+                  {{ props.col.label }}
+                </q-th>
+              </template>
+              <template #header-cell-esito="props">
+                <q-th :props="props">
+                  <q-icon name="coronavirus" size="2em"></q-icon>
+                  {{ props.col.label }}
+                </q-th>
+              </template>
+              <template #header-cell-prenotatoda="props">
+                <q-th :props="props">
+                  <q-icon name="supervisor_account" size="2em"></q-icon>
+                  {{ props.col.label }}
+                </q-th>
+              </template>
+              <template #header-cell-laboratorio="props">
+                <q-th :props="props">
+                  <q-icon name="biotech" size="2em"></q-icon>
+                  {{ props.col.label }}
+                </q-th>
+              </template>
+              <template #header-cell-tipotampone="props">
+                <q-th :props="props">
+                  <q-icon name="text_fields" size="2em"></q-icon>
+                  {{ props.col.label }}
+                </q-th>
+              </template>
               <template #top>
-                <div class="q-table__title text-weight-bold q-pr-xl">Seleziona campi da visualizzare:</div>
+                <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
 
-                <div v-if="$q.screen.gt.xs" class="col">
-                  <q-toggle v-model="visibleColumns" val="codice fiscale" label="codice fiscale"></q-toggle>
-                  <q-toggle v-model="visibleColumns" val="cognome" label="cognome"></q-toggle>
-                  <q-toggle v-model="visibleColumns" val="nome" label="nome"></q-toggle>
-                  <q-toggle v-model="visibleColumns" val="laboratorio" label="laboratorio"></q-toggle>
-                  <q-toggle v-model="visibleColumns" val="data" label="data"></q-toggle>
-                  <q-toggle v-model="visibleColumns" val="tipo tampone" label="tipo tampone"></q-toggle>
-                  <q-toggle v-model="visibleColumns" val="esito" label="esito"></q-toggle>
-                  <q-toggle v-model="visibleColumns" val="prenotato da" label="prenotato da"></q-toggle>
-                </div>
                 <q-select
-                  v-else
                   v-model="visibleColumns"
                   multiple
-                  borderless
+                  outlined
                   dense
                   options-dense
                   :display-value="$q.lang.table.columns"
@@ -118,6 +144,7 @@
                   map-options
                   :options="columns"
                   option-value="name"
+                  options-cover
                   style="min-width: 150px"
                 ></q-select>
               </template>
@@ -126,29 +153,44 @@
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
-    <!--<div class="text-center" style="font-size: 1.2rem">
-      <q-icon name="local_hospital" size="md" /><br/>ASL
-    </div>
-    <q-separator />
-
-
-    <h4>Dati statistici dei tamponi:dati relativi ai tamponi</h4>
-    <h4>dati degli utenti risultati positivi.</h4>--><!--analytics   view_list  local_hospital-->
+    <div class="col-4">
+        <vue3-chart-js
+          :id="doughnutChart.id"
+          ref="chartRef"
+          :type="doughnutChart.type"
+          :data="doughnutChart.data"
+          :options="doughnutChart.options"
+        />
+      </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { db } from 'boot/firebase';
-import { useState } from 'src/modules/useState.js';
-import { date } from 'quasar';
+import Vue3ChartJs from '@j-t-mcc/vue3-chartjs';
 
 export default defineComponent({
   name: 'AslHome',
+  components: { Vue3ChartJs },
+
   data() {
     //dbIstance= db.collection('prenotazioni');
     //var query = dbIstance.where("capital", "==", true);
     //dbIstance.orderBy("state").orderBy("population", "desc");
+    const chartRef = ref(null);
+    const doughnutChart = {
+      id: 'doughnut',
+      type: 'pie',
+      data: {
+        labels: ['Positivi', 'Negativi'],
+        datasets: [],
+      },
+      options: {
+        responsive: true,
+        plugins: {},
+      },
+    };
     return {
       tab: ref('one'),
       visibleColumns: ref(['codicefiscale', 'data', 'esito']),
@@ -171,9 +213,13 @@ export default defineComponent({
 
       statistici: [],
       risultati: [],
+      chartRef,
+      doughnutChart,
     };
   },
   created() {
+    statistici: ref([]);
+    chartRef : ref(null);
     //prende cose da DB
     db.collection('prenotazioni')
       .where('confermato', '==', 1)
@@ -193,7 +239,26 @@ export default defineComponent({
           };
           this.statistici.push(data);
         });
+        watch(
+      statistici,
+      () => {
+        const positivi = statistici.reduce((acc, val) => acc + (val.esito === true ? 1 : 0), 0);
+        const negativi = statistici.reduce((acc, val) => acc + (val.esito === false ? 1 : 0), 0);
+
+        doughnutChart.data.datasets = [
+          {
+            backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
+            data: [positivi, negativi],
+            hoverOffset: 4,
+          },
+        ];
+
+        chartRef.value.update(250);
+      },
+      { deep: true }
+    );
       });
+      
 
     //prende cose da DB
     db.collection('prenotazioni')

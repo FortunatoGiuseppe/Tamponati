@@ -1,17 +1,16 @@
 <template>
-  <q-page class="flex flex-center">
-    <q-img no-native-menu src="../img/bg8.jpg" style="height: 1000px; object-fit: contain">
-      <q-card class="my-card absolute-center" flat bordered style="background: rgb(0 0 0 / 78%)">
+  <q-page class="flex flex-center sfondoChiSiamo">
+      <q-card class="my-card absolute-center chiSiamo" flat bordered style="background: rgb(0 0 0 / 78%)">
         <q-card-section vertical>
           <q-card-section class="q-pt-xs">
-            <div class="text-overline">chi siamo</div>
-            <div class="text-h3 q-mt-sm q-mb-xs">La nostra missione</div>
+            <div class="text-overline text-white">chi siamo</div>
+            <div class="text-h3 text-white q-mt-sm q-mb-xs">La nostra missione</div>
             <div class="text-h6 text-grey">
               Siamo un gruppo di studenti universitari con l'obiettivo di creare un sito di prenotazione tamponi.
             </div>
             <br />
             <q-separator></q-separator>
-            <div class="text-h4 text">Il team:</div>
+            <div class="text-h4 text-white">Il team:</div>
           </q-card-section>
 
           <q-card-section class="row justify-center items-center q-gutter-md">
@@ -44,7 +43,6 @@
           </q-card-section>
         </q-card-section>
       </q-card>
-    </q-img>
   </q-page>
 </template>
 
