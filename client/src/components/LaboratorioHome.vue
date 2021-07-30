@@ -1,61 +1,74 @@
 <template>
   <div>
-    <p class="text-center text-h5">Laboratorio</p>
-    <div class="q-pa-md">
-      <q-table
-        title="Da Confermare"
-        :rows="daConfermare"
-        :columns="colConfermare"
-        :pagination="{ page: 1, daConfermarePerPage: 0 }"
-        row-key="id"
-        binary-state-sort
-        hide-bottom
-        bordered
-        flat
-      >
-        <template #body-cell-data="props">
-          <q-td :props="props">
-            {{ props.row.data }}
-            <q-popup-edit
-              v-slot="scope"
-              v-model="props.row.data"
-              auto-save
-              @save="(value) => updateDataTampone(value, props.row)"
-            >
-              <q-input v-model="scope.value" mask="##/##/####" dense autofocus @keyup.enter="scope.set" />
-            </q-popup-edit>
-          </q-td>
-        </template>
+    <p class="text-center text-h5"><q-icon name="biotech" size="lg" /> Laboratorio</p>
+    <div class="row">
+      <div class="col">
+        <div class="q-pa-md">
+          <q-table
+            title="Da Confermare"
+            :rows="daConfermare"
+            :columns="colConfermare"
+            :pagination="{ page: 1, daConfermarePerPage: 0 }"
+            row-key="id"
+            binary-state-sort
+            hide-bottom
+            bordered
+            flat
+          >
+            <template #body-cell-data="props">
+              <q-td :props="props">
+                {{ props.row.data }}
+                <q-popup-edit
+                  v-slot="scope"
+                  v-model="props.row.data"
+                  auto-save
+                  @save="(value) => updateDataTampone(value, props.row)"
+                >
+                  <q-input v-model="scope.value" mask="##/##/####" dense autofocus @keyup.enter="scope.set" />
+                </q-popup-edit>
+              </q-td>
+            </template>
 
-        <template #body-cell-confermato="props">
-          <q-td :props="props">
-            <q-checkbox v-model="props.row.confermato" @update:model-value="confermaTampone(props.row)" />
-          </q-td>
-        </template>
-      </q-table>
-    </div>
-    <div class="q-pa-md">
-      <q-table
-        title="Da Refertare"
-        :rows="daRefertare"
-        :columns="colRefertare"
-        :pagination="{ page: 1, daConfermarePerPage: 0 }"
-        row-key="id"
-        binary-state-sort
-        hide-bottom
-        bordered
-        flat
-      >
-        <template #body-cell-esito="props">
-          <q-td :props="props">
-            <q-option-group
-              v-model="props.row.confermato"
-              :options="optionsEsito"
-              @update:model-value="(value) => updateEsitoTampone(value, props.row)"
-            />
-          </q-td>
-        </template>
-      </q-table>
+            <template #body-cell-confermato="props">
+              <q-td :props="props">
+                <q-checkbox v-model="props.row.confermato" @update:model-value="confermaTampone(props.row)" />
+              </q-td>
+            </template>
+          </q-table>
+        </div>
+        <div class="q-pa-md">
+          <q-table
+            title="Da Refertare"
+            :rows="daRefertare"
+            :columns="colRefertare"
+            :pagination="{ page: 1, daConfermarePerPage: 0 }"
+            row-key="id"
+            binary-state-sort
+            hide-bottom
+            bordered
+            flat
+          >
+            <template #body-cell-esito="props">
+              <q-td :props="props">
+                <q-option-group
+                  v-model="props.row.esito"
+                  :options="optionsEsito"
+                  @update:model-value="(value) => updateEsitoTampone(value, props.row)"
+                />
+              </q-td>
+            </template>
+          </q-table>
+        </div>
+      </div>
+      <div class="col-4">
+        <vue3-chart-js
+          :id="doughnutChart.id"
+          ref="chartRef"
+          :type="doughnutChart.type"
+          :data="doughnutChart.data"
+          :options="doughnutChart.options"
+        />
+      </div>
     </div>
     <q-page-sticky position="bottom-right" :offset="[24, 24]">
       <q-btn fab icon="date_range" label="Calendario" to="/calendario" color="primary" />
@@ -64,17 +77,31 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { date } from 'quasar';
 import firebase from 'firebase/app';
 import { db } from 'boot/firebase';
 import { useState } from 'src/modules/useState.js';
+import Vue3ChartJs from '@j-t-mcc/vue3-chartjs';
 
 export default defineComponent({
   name: 'LaboratorioHome',
+  components: { Vue3ChartJs },
   setup() {
     const state = useState();
-
+    const chartRef = ref(null);
+    const doughnutChart = {
+      id: 'doughnut',
+      type: 'pie',
+      data: {
+        labels: ['Positivi', 'Negativi'],
+        datasets: [],
+      },
+      options: {
+        responsive: true,
+        plugins: {},
+      },
+    };
     const optionsEsito = [
       {
         label: 'Positivo',
@@ -200,6 +227,26 @@ export default defineComponent({
       }
     };
 
+    watch(
+      daRefertare,
+      () => {
+        console.log(1);
+        const positivi = daRefertare.value.reduce((acc, val) => acc + (val.esito === true ? 1 : 0), 0);
+        const negativi = daRefertare.value.reduce((acc, val) => acc + (val.esito === false ? 1 : 0), 0);
+
+        doughnutChart.data.datasets = [
+          {
+            backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
+            data: [positivi, negativi],
+            hoverOffset: 4,
+          },
+        ];
+
+        chartRef.value.update(250);
+      },
+      { deep: true }
+    );
+
     return {
       updateEsitoTampone,
       optionsEsito,
@@ -209,6 +256,8 @@ export default defineComponent({
       daRefertare,
       confermaTampone,
       updateDataTampone,
+      chartRef,
+      doughnutChart,
     };
   },
 });

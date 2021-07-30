@@ -65,7 +65,13 @@
           label="Nome Azienda"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
-        <q-input v-model="register.pIva" outlined label="Partita IVA" :rules="[(val) => !!val || 'Campo Richiesto']" />
+        <q-input
+          v-model="register.piva"
+          outlined
+          label="Partita IVA"
+          mask="###########"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
         <q-input
           v-model="register.indirizzo"
           outlined
@@ -108,7 +114,7 @@ export default defineComponent({
           email: userCr.email,
           uid: userCr.uid,
           nomeAzienda: register.value.nomeAzienda,
-          pIva: register.value.pIva,
+          piva: register.value.piva,
           indirizzo: register.value.indirizzo,
         });
         register.value = {};
