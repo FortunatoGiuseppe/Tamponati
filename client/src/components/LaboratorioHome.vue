@@ -8,7 +8,7 @@
             title="Da Confermare"
             :rows="daConfermare"
             :columns="colConfermare"
-            :pagination="{ page: 1, daConfermarePerPage: 0 }"
+            :pagination="{ page: 1, rowsPerPage: 0 }"
             row-key="id"
             binary-state-sort
             hide-bottom
@@ -41,7 +41,7 @@
             title="Da Refertare"
             :rows="daRefertare"
             :columns="colRefertare"
-            :pagination="{ page: 1, daConfermarePerPage: 0 }"
+            :pagination="{ page: 1, rowsPerPage: 0 }"
             row-key="id"
             binary-state-sort
             hide-bottom

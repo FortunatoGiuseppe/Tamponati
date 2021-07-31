@@ -7,7 +7,7 @@
         title="Richieste Medici"
         :rows="richiesteMed"
         :columns="colMedici"
-        :pagination="{ page: 1, daConfermarePerPage: 0 }"
+        :pagination="{ page: 1, rowsPerPage: 0 }"
         row-key="id"
         binary-state-sort
         hide-bottom
@@ -28,7 +28,7 @@
         title="Richieste Laboratori"
         :rows="richiesteLab"
         :columns="colLab"
-        :pagination="{ page: 1, daConfermarePerPage: 0 }"
+        :pagination="{ page: 1, rowsPerPage: 0 }"
         row-key="id"
         binary-state-sort
         hide-bottom
