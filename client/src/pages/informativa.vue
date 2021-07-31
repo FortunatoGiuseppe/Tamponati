@@ -1,6 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
-    <q-parallax src="../img/bg7.jpg" :height="2450" :speed="1" style="margin-top: -100px">
+  <q-page class="flex flex-center sfondoInformativa">
       <q-card class="info my-card q-pa-xs absolute-center">
         <q-card-section vertical>
           <q-card-section class="q-pt-xs">
@@ -81,7 +80,6 @@
           </q-card-section>
         </q-card-section>
       </q-card>
-    </q-parallax>
     <q-page-scroller position="bottom-right" :scroll-offset="400" :offset="[18, 18]">
       <q-btn fab icon="keyboard_arrow_up" color="primary"></q-btn>
     </q-page-scroller>

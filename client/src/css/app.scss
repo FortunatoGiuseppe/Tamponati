@@ -180,7 +180,10 @@ p.info {
 }
 
 @media only screen and (max-width: 800px) {
-  .info,
+  .info{
+    width: 100%;
+    padding-top: 550px;
+  }
   .chiSiamo {
     width: 100%;
     padding-top: 145px;
@@ -211,7 +214,8 @@ p.info {
 }
 
 .sfondoHome,
-.sfondoChiSiamo {
+.sfondoChiSiamo,
+.sfondoInformativa {
   background-color: #cccccc;
   height: 900px;
   background-position: center;
@@ -224,6 +228,10 @@ p.info {
 }
 .sfondoChiSiamo {
   background-image: url('../img/bg8.jpg');
+}
+.sfondoInformativa {
+  background-image: url('../img/bg7.jpg');
+  height: 1700px;
 }
 .sfondoHomeComponents {
   background: rgba(0, 0, 0, 0.7);

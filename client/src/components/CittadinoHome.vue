@@ -1,9 +1,8 @@
 <template>
   <div>
     <h1>Cittadino</h1>
-    <q-page-sticky position="bottom-right" :offset="[24, 24]">
       <q-btn fab icon="add" label="Nuova Prenotazione" color="primary" @click="openPrenota" />
-    </q-page-sticky>
+      <q-btn fab icon="add" label="Agenda personale" color="primary" @click="openAgenda" />
   </div>
 </template>
 
@@ -11,7 +10,7 @@
 import { defineComponent } from 'vue';
 import { useQuasar } from 'quasar';
 import PrenotaTampone from 'src/components/PrenotaTampone.vue';
-
+import AgendaPersonale from 'src/components/AgendaPersonale.vue';
 export default defineComponent({
   name: 'CittadinoHome',
   setup() {
@@ -21,8 +20,13 @@ export default defineComponent({
         component: PrenotaTampone,
       }).onOk(async (val) => {});
     };
+    const openAgenda = () => {
+      $q.dialog({
+        component: AgendaPersonale,
+      }).onOk(async (val) => {});
+    };
 
-    return { openPrenota };
+    return { openPrenota,openAgenda};
   },
 });
 </script>

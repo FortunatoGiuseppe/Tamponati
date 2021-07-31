@@ -202,7 +202,7 @@ export default defineComponent({
         $q.notify({
           type: 'positive',
           position: 'top',
-          message: 'Prenotazione registrata clicca il messaggio',
+          message: 'Prenotazione registrata',
           forever: true, 
         });
       } catch (error) {

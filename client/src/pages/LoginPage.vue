@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md sfondoHome">
     <q-card class="q-mx-auto q-pa-lg" style="width: 30rem">
       <q-form @submit.prevent="doLogin">
         <q-card-section class="q-gutter-md">
