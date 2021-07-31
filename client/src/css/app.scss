@@ -153,75 +153,79 @@
   }
 }
 
-
-.info{
-  width:60%;
-  min-width:500px;
+.info {
+  width: 60%;
+  min-width: 500px;
 }
-p.info{
+p.info {
   font-size: 17px;
 }
- //NAVBAR 
+//NAVBAR
 .toolBar_btn {
   font-size: 1.1vw;
 }
-@media only screen and (max-width: 1000px) { 
+@media only screen and (max-width: 1000px) {
   .toolBar_btn {
     font-size: 11px;
   }
 }
-@media only screen and (max-width: 1200px) { 
-  .info,.chiSiamo{
-    width:90%;
+@media only screen and (max-width: 1200px) {
+  .info,
+  .chiSiamo {
+    width: 90%;
   }
-  .parallax-info{
+  .parallax-info {
     height: 4000px;
   }
 }
 
-@media only screen and (max-width: 800px) { 
-  .info,.chiSiamo{
-    width:100%;
-    padding-top:145px
+@media only screen and (max-width: 800px) {
+  .info,
+  .chiSiamo {
+    width: 100%;
+    padding-top: 145px;
   }
-  .cartaChiSiamo{
+  .cartaChiSiamo {
     width: 100px;
   }
-  p.info{
+  p.info {
     font-size: 10px;
   }
-  h1.home{
+  h1.home {
     font-size: 45px;
   }
-  h3.home{
+  h3.home {
     font-size: 30px;
   }
-
 }
 
-  #tabellaStatistici tr:nth-child(even){background-color: #00000008;
-  }
-  #tabellaStatistici th {
-    background-color: #448AFF;
-  }
-  #tabellaStatistici .q-table__bottom,
-  #tabellaStatistici thead tr:first-child th {background-color: #448AFF;}
+#tabellaStatistici tr:nth-child(even) {
+  background-color: #00000008;
+}
+#tabellaStatistici th {
+  background-color: #448aff;
+}
+#tabellaStatistici .q-table__bottom,
+#tabellaStatistici thead tr:first-child th {
+  background-color: #448aff;
+}
 
-  .sfondoHome, .sfondoChiSiamo{
-    background-color: #cccccc;
-    height: 900px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-  }
-  .sfondoHome{
-    background-image: url("../img/IndexImage.jpg"); 
-  }
-  .sfondoChiSiamo{
-    background-image: url("../img/bg8.jpg"); 
-  }
-  .sfondoHomeComponents{
-    background: rgb(0 0 0 / 78%); 
-    padding:20px;
-  }
+.sfondoHome,
+.sfondoChiSiamo {
+  background-color: #cccccc;
+  height: 900px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+.sfondoHome {
+  background-image: url('../img/IndexImage.jpg');
+}
+.sfondoChiSiamo {
+  background-image: url('../img/bg8.jpg');
+}
+.sfondoHomeComponents {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+}

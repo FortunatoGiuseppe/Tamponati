@@ -1,29 +1,17 @@
 <template>
-  <q-page class="flex" style="padding:0px;">
+  <q-page class="flex" style="padding: 0px">
     <section class="full-width sfondoHome">
-      <cittadino-home v-if="state.tipo_utente && state.tipo_utente == 1"           class="text-white sfondoHomeComponents"/>
-      <medico-home v-else-if="state.tipo_utente && state.tipo_utente == 2"         class="text-white sfondoHomeComponents"/>
-      <datore-home v-else-if="state.tipo_utente && state.tipo_utente == 3"         class="text-white sfondoHomeComponents"/>
-      <laboratorio-home v-else-if="state.tipo_utente && state.tipo_utente == 4"    class="text-white sfondoHomeComponents"/>
-      <amministratore-home v-else-if="state.tipo_utente && state.tipo_utente == 5" class="bg-white"/>
-      <asl-home v-else-if="state.tipo_utente && state.tipo_utente == 6"            class="text-white sfondoHomeComponents"/>
-
-      <div v-else>  
-    
-        <div class="full-width text-white absolute-center"  style="background: rgb(0 0 0 / 78%); padding:20px">
-        <h1 class="home">TAMPONATI</h1>
-        <h3 class="home">Prenota il tuo tampone presso i laboratori piu vicini a te</h3>
-        </div>
-      </div>
+      <component :is="currentPage" class="text-white sfondoHomeComponents"></component>
     </section>
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref, watchEffect } from 'vue';
+import { computed, defineComponent, watchEffect } from 'vue';
 import { useAuth } from '@vueuse/firebase/useAuth';
 import { db, auth } from 'boot/firebase';
 import { useState } from 'src/modules/useState.js';
+import NoLoginHome from 'src/components/NoLoginHome.vue';
 import CittadinoHome from 'src/components/CittadinoHome.vue';
 import LaboratorioHome from 'src/components/LaboratorioHome.vue';
 import MedicoHome from 'src/components/MedicoHome.vue';
@@ -33,12 +21,30 @@ import AslHome from 'src/components/AslHome.vue';
 
 export default defineComponent({
   name: 'PageIndex',
-  components: { CittadinoHome, LaboratorioHome, MedicoHome, AmministratoreHome, AslHome, DatoreHome },
+  components: { NoLoginHome, CittadinoHome, MedicoHome, DatoreHome, LaboratorioHome, AmministratoreHome, AslHome },
   setup() {
     const { isAuthenticated, user } = useAuth(auth);
     const state = useState();
-    const slide = 1;
-    const autopaly = true;
+
+    const currentPage = computed(() => {
+      if (state.value.tipo_utente) {
+        switch (state.value.tipo_utente) {
+          case 1:
+            return CittadinoHome;
+          case 2:
+            return MedicoHome;
+          case 3:
+            return DatoreHome;
+          case 4:
+            return LaboratorioHome;
+          case 5:
+            return AmministratoreHome;
+          case 6:
+            return AslHome;
+        }
+      }
+      return NoLoginHome;
+    });
 
     watchEffect(() => {
       if (isAuthenticated.value && user.value && user.value.uid) {
@@ -64,7 +70,7 @@ export default defineComponent({
       }
     });
 
-    return { state, slide: ref(1), autoplay: ref(true) };
+    return { currentPage };
   },
 });
 </script>
