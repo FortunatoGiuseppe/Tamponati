@@ -35,8 +35,8 @@
             </q-item-section>
             <q-item-section class="col-2 text-black" side>
               <q-item-label
-                ><q-btn icon="done" flat @click="approvaRichiesta(richiesta)" />
-                <q-btn icon="close" flat @click="disapprovaRichiesta(richiesta)" />
+                ><q-btn icon="done" flat @click="approvaMed(richiesta)" />
+                <q-btn icon="close" flat @click="disapprovaMed(richiesta)" />
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -81,8 +81,8 @@
             </q-item-section>
             <q-item-section class="col-2 text-black" side>
               <q-item-label>
-                <q-btn icon="done" flat @click="approvaRichiesta(richiesta)" />
-                <q-btn icon="close" flat @click="disapprovaRichiesta(richiesta)" />
+                <q-btn icon="done" flat @click="approvaLab(richiesta)" />
+                <q-btn icon="close" flat @click="disapprovaLab(richiesta)" />
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -102,6 +102,29 @@ export default defineComponent({
   setup() {
     const medici = ref(true);
     const laboratori = ref(true);
+    const approvaMed = async (richiesta) => {
+      await db.collection('users').doc(richiesta.id).update({ approvato: true });
+      location.reload();
+    };
+    const disapprovaMed = async (richiesta) => {
+      await db.collection('users').doc(richiesta.id).update({ approvato: false });
+      location.reload();
+    };
+    const approvaLab = async (richiesta) => {
+      await db.collection('users').doc(richiesta.id).update({ approvato: true });
+      location.reload();
+    };
+    const disapprovaLab = async (richiesta) => {
+      await db.collection('users').doc(richiesta.id).update({ approvato: false });
+      location.reload();
+    };
+
+    return {
+      approvaMed,
+      disapprovaMed,
+      approvaLab,
+      disapprovaLab,
+    };
   },
   data() {
     return {
