@@ -51,6 +51,13 @@
           label="Password"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
+        <q-input
+          v-model="register.password2"
+          outlined
+          type="password"
+          label="Conferma password"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
 
         <q-stepper-navigation>
           <q-btn color="primary" label="Continua" @click="step = 3" />
@@ -101,31 +108,45 @@ export default defineComponent({
     const register = ref({});
 
     const doRegister = async () => {
-      try {
-        const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
+      if(register.value.password==register.value.password2){
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
 
-        const userCr = userCredential.user;
-        await db.collection('users').doc(userCr.uid).set({
-          tipo_utente: 3,
-          nome: register.value.nome,
-          cognome: register.value.cognome,
-          codicefiscale: register.value.codicefiscale,
-          datanasciata: register.value.datanasciata,
-          email: userCr.email,
-          uid: userCr.uid,
-          nomeAzienda: register.value.nomeAzienda,
-          piva: register.value.piva,
-          indirizzo: register.value.indirizzo,
-        });
-        register.value = {};
-        router.push('/');
-      } catch (error) {
+          const userCr = userCredential.user;
+          await db.collection('users').doc(userCr.uid).set({
+            tipo_utente: 3,
+            nome: register.value.nome,
+            cognome: register.value.cognome,
+            codicefiscale: register.value.codicefiscale,
+            datanasciata: register.value.datanasciata,
+            email: userCr.email,
+            uid: userCr.uid,
+            nomeAzienda: register.value.nomeAzienda,
+            piva: register.value.piva,
+            indirizzo: register.value.indirizzo,
+          });
+          register.value = {};
+          router.push('/');
+          $q.notify({
+            type: 'positive',
+            position: 'top',
+            message: 'Registrazione effettuata!',
+            forever: true, 
+          });
+        } catch (error) {
+          $q.notify({
+            type: 'negative',
+            position: 'top',
+            message: 'Datore di Lavoro già esistente!',
+          });
+          console.log(error);
+        }
+      } else {
         $q.notify({
-          type: 'negative',
-          position: 'top',
-          message: 'Datore di Lavoro già esistente!',
+            type: 'negative',
+            position: 'top',
+            message: 'Attenzione le password inserite non coincidono!',
         });
-        console.log(error);
       }
     };
 

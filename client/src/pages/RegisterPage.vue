@@ -1,14 +1,14 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md sfondoHome">
     <q-tabs
       v-model="tab"
       dense
-      class="text-grey q-mx-auto q-pa-lg"
+      class="text-primary q-mx-auto q-pa-lg"
       active-color="primary"
       indicator-color="primary"
       align="justify"
       narrow-indicator
-      style="width: 30rem"
+      style="width: 30rem;"
     >
       <q-tab name="cittadino" icon="face" label="Cittadino" />
       <q-tab name="medico" icon="medication" label="Medico" />
@@ -17,7 +17,7 @@
 
     <q-separator />
 
-    <q-tab-panels v-model="tab" animated>
+    <q-tab-panels v-model="tab" style="background: rgba(0, 0, 0, 0);" animated>
       <q-tab-panel name="cittadino">
         <register-cittadino />
       </q-tab-panel>

@@ -50,6 +50,13 @@
           label="Password"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
+        <q-input
+          v-model="register.password2"
+          outlined
+          type="password"
+          label="Conferma password"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
         <q-stepper-navigation>
           <q-btn type="submit" color="primary" label="Registrati" @click="step = 2" />
           <q-btn flat color="primary" label="Indietro" class="q-ml-sm" @click="step = 1" />
@@ -73,30 +80,45 @@ export default defineComponent({
     const register = ref({});
 
     const doRegister = async () => {
-      try {
-        const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
-        // auth.currentUser.updateProfile({
-        //   displayName: register.value.nome + ' ' + register.value.cognome,
-        // });
+      //controllo password 
+      if(register.value.password==register.value.password2){
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
+          // auth.currentUser.updateProfile({
+          //   displayName: register.value.nome + ' ' + register.value.cognome,
+          // });
 
-        const userCr = userCredential.user;
-        await db.collection('users').doc(userCr.uid).set({
-          tipo_utente: 1,
-          nome: register.value.nome,
-          cognome: register.value.cognome,
-          codicefiscale: register.value.codicefiscale,
-          datanasciata: register.value.datanasciata,
-          email: userCr.email,
-          uid: userCr.uid,
-        });
-        router.push('/');
-      } catch (error) {
-        $q.notify({
-          type: 'negative',
-          position: 'top',
-          message: 'Utente già esistente!',
-        });
-        console.log(error);
+          const userCr = userCredential.user;
+          await db.collection('users').doc(userCr.uid).set({
+            tipo_utente: 1,
+            nome: register.value.nome,
+            cognome: register.value.cognome,
+            codicefiscale: register.value.codicefiscale,
+            datanasciata: register.value.datanasciata,
+            email: userCr.email,
+            uid: userCr.uid,
+          });
+          router.push('/');
+          $q.notify({
+            type: 'positive',
+            position: 'top',
+            message: 'Registrazione effettuata!',
+            forever: true, 
+          });
+        } catch (error) {
+          $q.notify({
+            type: 'negative',
+            position: 'top',
+            message: 'Utente già esistente!',
+          });
+          console.log(error);
+        }
+      } else {
+          $q.notify({
+            type: 'negative',
+            position: 'top',
+            message: 'Attenzione le password inserite non coincidono!',
+          });
       }
     };
 

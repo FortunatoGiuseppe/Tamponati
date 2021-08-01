@@ -59,6 +59,13 @@
           label="Password"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
+        <q-input
+          v-model="register.password2"
+          outlined
+          type="password"
+          label="Conferma password"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
         <q-stepper-navigation>
           <q-btn type="submit" color="primary" label="Registrati" @click="step = 2" />
           <q-btn flat color="primary" label="Indietro" class="q-ml-sm" @click="step = 1" />
@@ -103,30 +110,45 @@ export default defineComponent({
     }
 
     const doRegister = async () => {
-      try {
-        const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
+      //controllo password 
+      if(register.value.password==register.value.password2){
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
 
-        const userCr = userCredential.user;
-        await db.collection('users').doc(userCr.uid).set({
-          tipo_utente: 4,
-          nome: register.value.nome,
-          piva: register.value.piva,
-          indirizzo: register.value.indirizzo,
-          provincia: register.value.provincia,
-          citta: register.value.citta,
-          cap: register.value.cap,
-          email: userCr.email,
-          uid: userCr.uid,
-          approvato: false,
-        });
-        router.push('/');
-      } catch (error) {
-        $q.notify({
-          type: 'negative',
-          position: 'top',
-          message: 'Laboratorio già registrato!',
-        });
-        console.log(error);
+          const userCr = userCredential.user;
+          await db.collection('users').doc(userCr.uid).set({
+            tipo_utente: 4,
+            nome: register.value.nome,
+            piva: register.value.piva,
+            indirizzo: register.value.indirizzo,
+            provincia: register.value.provincia,
+            citta: register.value.citta,
+            cap: register.value.cap,
+            email: userCr.email,
+            uid: userCr.uid,
+            approvato: false,
+          });
+          router.push('#');//non deve andare nella page lab
+          $q.notify({
+            type: 'positive',
+            position: 'top',
+            message: 'Richiesta di convenzione inviata!',
+            forever: true, 
+          });
+        } catch (error) {
+          $q.notify({
+            type: 'negative',
+            position: 'top',
+            message: 'Laboratorio già registrato!',
+          });
+          console.log(error);
+        }
+      } else {
+         $q.notify({
+            type: 'negative',
+            position: 'top',
+            message: 'Attenzione le password inserite non coincidono!',
+          });
       }
     };
 

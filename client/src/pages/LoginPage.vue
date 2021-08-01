@@ -7,10 +7,17 @@
           <q-input
             v-model="password"
             outlined
-            type="password"
+            :type="isPwd ? 'password' : 'text'" 
             label="Password"
             :rules="[(val) => !!val || 'Campo Richiesto']"
-          />
+          ><template #append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              ></q-icon>
+            </template>
+          </q-input>
         </q-card-section>
         <q-card-actions>
           <q-btn type="submit" flat>Login</q-btn>
@@ -37,6 +44,7 @@ export default defineComponent({
     const password = ref('');
 
     const doLogin = async () => {
+      //se sei medico o laboraotrorio devi essere stato approvato !!!!!!!!
       try {
         await auth.signInWithEmailAndPassword(email.value, password.value);
         router.push('/');
@@ -50,7 +58,7 @@ export default defineComponent({
       }
     };
 
-    return { email, password, doLogin };
+    return { email, password, doLogin,isPwd: ref(true) };
   },
 });
 </script>

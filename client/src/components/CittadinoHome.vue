@@ -1,8 +1,14 @@
 <template>
   <div>
     <h1>Cittadino</h1>
-      <q-btn fab icon="add" label="Nuova Prenotazione" color="primary" @click="openPrenota" />
-      <q-btn fab icon="add" label="Agenda personale" color="primary" @click="openAgenda" />
+    <div class="row justify-evenly">
+      <div class="col-4">
+        <q-btn class="full-width" rounded size="19px" icon="add" label="Nuova Prenotazione" color="primary" @click="openPrenota" />
+      </div>
+      <div class="col-4">
+        <q-btn class="full-width" rounded size="19px" icon="book" label="Agenda personale" color="primary" @click="openAgenda"/>
+      </div>
+    </div>
   </div>
 </template>
 
