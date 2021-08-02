@@ -1,16 +1,16 @@
 <template>
   <q-page class="q-pa-md sfondoHome">
-    <q-card class="q-mx-auto q-pa-lg" style="width: 30rem">
+    <q-card class="q-mx-auto q-pa-lg" style="width: 30rem; max-width: 100%">
       <q-form @submit.prevent="doLogin">
         <q-card-section class="q-gutter-md">
           <q-input v-model="email" outlined type="email" label="Email" :rules="[(val) => !!val || 'Campo Richiesto']" />
           <q-input
             v-model="password"
             outlined
-            :type="isPwd ? 'password' : 'text'" 
+            :type="isPwd ? 'password' : 'text'"
             label="Password"
             :rules="[(val) => !!val || 'Campo Richiesto']"
-          ><template #append>
+            ><template #append>
               <q-icon
                 :name="isPwd ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
@@ -58,7 +58,7 @@ export default defineComponent({
       }
     };
 
-    return { email, password, doLogin,isPwd: ref(true) };
+    return { email, password, doLogin, isPwd: ref(true) };
   },
 });
 </script>

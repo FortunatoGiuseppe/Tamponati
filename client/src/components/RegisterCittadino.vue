@@ -1,6 +1,13 @@
 <template>
   <q-form @submit.prevent="doRegister">
-    <q-stepper v-model="step" vertical color="primary" animated class="q-mx-auto q-pa-lg" style="width: 30rem">
+    <q-stepper
+      v-model="step"
+      vertical
+      color="primary"
+      animated
+      class="q-mx-auto q-py-lg"
+      style="width: 30rem; max-width: 100%"
+    >
       <q-step :name="1" title="Chi sono" :done="step > 1">
         <q-input v-model="register.nome" outlined label="Nome" :rules="[(val) => !!val || 'Campo Richiesto']" />
         <q-input v-model="register.cognome" outlined label="Cognome" :rules="[(val) => !!val || 'Campo Richiesto']" />
@@ -80,10 +87,13 @@ export default defineComponent({
     const register = ref({});
 
     const doRegister = async () => {
-      //controllo password 
-      if(register.value.password==register.value.password2){
+      //controllo password
+      if (register.value.password == register.value.password2) {
         try {
-          const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
+          const userCredential = await auth.createUserWithEmailAndPassword(
+            register.value.email,
+            register.value.password
+          );
           // auth.currentUser.updateProfile({
           //   displayName: register.value.nome + ' ' + register.value.cognome,
           // });
@@ -103,7 +113,7 @@ export default defineComponent({
             type: 'positive',
             position: 'top',
             message: 'Registrazione effettuata!',
-            forever: true, 
+            forever: true,
           });
         } catch (error) {
           $q.notify({
@@ -114,11 +124,11 @@ export default defineComponent({
           console.log(error);
         }
       } else {
-          $q.notify({
-            type: 'negative',
-            position: 'top',
-            message: 'Attenzione le password inserite non coincidono!',
-          });
+        $q.notify({
+          type: 'negative',
+          position: 'top',
+          message: 'Attenzione le password inserite non coincidono!',
+        });
       }
     };
 

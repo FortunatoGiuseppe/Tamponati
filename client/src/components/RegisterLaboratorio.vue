@@ -1,6 +1,13 @@
 <template>
   <q-form @submit.prevent="saveForm">
-    <q-stepper v-model="step" vertical color="primary" animated class="q-mx-auto q-pa-lg" style="width: 30rem">
+    <q-stepper
+      v-model="step"
+      vertical
+      color="primary"
+      animated
+      class="q-mx-auto q-py-lg"
+      style="width: 30rem; max-width: 100%"
+    >
       <q-step :name="1" title="Anagrafica" :done="step > 1">
         <q-input
           v-model="register.nome"
@@ -110,10 +117,13 @@ export default defineComponent({
     }
 
     const doRegister = async () => {
-      //controllo password 
-      if(register.value.password==register.value.password2){
+      //controllo password
+      if (register.value.password == register.value.password2) {
         try {
-          const userCredential = await auth.createUserWithEmailAndPassword(register.value.email, register.value.password);
+          const userCredential = await auth.createUserWithEmailAndPassword(
+            register.value.email,
+            register.value.password
+          );
 
           const userCr = userCredential.user;
           await db.collection('users').doc(userCr.uid).set({
@@ -128,12 +138,12 @@ export default defineComponent({
             uid: userCr.uid,
             approvato: false,
           });
-          router.push('#');//non deve andare nella page lab
+          router.push('#'); //non deve andare nella page lab
           $q.notify({
             type: 'positive',
             position: 'top',
             message: 'Richiesta di convenzione inviata!',
-            forever: true, 
+            forever: true,
           });
         } catch (error) {
           $q.notify({
@@ -144,11 +154,11 @@ export default defineComponent({
           console.log(error);
         }
       } else {
-         $q.notify({
-            type: 'negative',
-            position: 'top',
-            message: 'Attenzione le password inserite non coincidono!',
-          });
+        $q.notify({
+          type: 'negative',
+          position: 'top',
+          message: 'Attenzione le password inserite non coincidono!',
+        });
       }
     };
 

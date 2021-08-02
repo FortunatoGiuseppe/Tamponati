@@ -49,13 +49,11 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import { db } from 'boot/firebase';
-
 export default defineComponent({
   name: 'AmministratoreHome',
   setup() {
     const richiesteMed = ref([]);
     const richiesteLab = ref([]);
-
     const colMedici = [
       { name: 'nome', label: 'Nome', field: 'nome', align: 'left', sortable: true },
       { name: 'cognome', label: 'Cognome', field: 'cognome', align: 'left', sortable: true },
@@ -63,7 +61,6 @@ export default defineComponent({
       { name: 'email', label: 'E-Mail', field: 'email', align: 'left', sortable: true },
       { name: 'action', label: 'Action', align: 'left' },
     ];
-
     const colLab = [
       { name: 'nome', label: 'Nome', field: 'nome', align: 'left', sortable: true },
       { name: 'piva', label: 'Partita Iva', field: 'piva', align: 'left', sortable: true },
@@ -72,7 +69,6 @@ export default defineComponent({
       { name: 'cap', label: 'CAP', field: 'cap', align: 'left', sortable: true },
       { name: 'action', label: 'Action', align: 'left' },
     ];
-
     db.collection('users')
       .where('tipo_utente', '==', 2)
       .where('approvato', '==', false)
@@ -91,7 +87,6 @@ export default defineComponent({
           richiesteLab.value.push(doc.data());
         });
       });
-
     const doApprova = async (type, row, value) => {
       await db.collection('users').doc(row.uid).update({ approvato: value });
       if (type == 'lab') {
@@ -106,7 +101,6 @@ export default defineComponent({
         }
       }
     };
-
     return {
       colMedici,
       colLab,
@@ -117,5 +111,3 @@ export default defineComponent({
   },
 });
 </script>
-
-

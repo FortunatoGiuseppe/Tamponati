@@ -1,6 +1,6 @@
 <template>
   <q-dialog ref="dialogRef" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin" style="min-width: 455px">
+    <q-card class="q-dialog-plugin" style="width: 450px; max-width: 100%">
       <q-form @submit.prevent="doPrenotazione">
         <q-card-section>
           <div class="text-h6">Prenota Tampone</div>
@@ -67,7 +67,7 @@
               </q-item>
             </template>
           </q-select>
-          <q-date v-model="data" landscape :options="dateDispo" />
+          <q-date v-model="data" :landscape="$q.screen.gt.md" :options="dateDispo" />
         </q-card-section>
         <q-separator />
         <q-card-actions align="right">
@@ -203,7 +203,7 @@ export default defineComponent({
           type: 'positive',
           position: 'top',
           message: 'Prenotazione registrata',
-          forever: true, 
+          forever: true,
         });
       } catch (error) {
         $q.notify({

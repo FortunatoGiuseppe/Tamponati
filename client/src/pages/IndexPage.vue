@@ -18,14 +18,12 @@ import MedicoHome from 'src/components/MedicoHome.vue';
 import DatoreHome from 'src/components/MedicoHome.vue';
 import AmministratoreHome from 'src/components/AmministratoreHome.vue';
 import AslHome from 'src/components/AslHome.vue';
-
 export default defineComponent({
   name: 'PageIndex',
   components: { NoLoginHome, CittadinoHome, MedicoHome, DatoreHome, LaboratorioHome, AmministratoreHome, AslHome },
   setup() {
     const { isAuthenticated, user } = useAuth(auth);
     const state = useState();
-
     const currentPage = computed(() => {
       if (state.value.tipo_utente) {
         switch (state.value.tipo_utente) {
@@ -45,7 +43,6 @@ export default defineComponent({
       }
       return NoLoginHome;
     });
-
     watchEffect(() => {
       if (isAuthenticated.value && user.value && user.value.uid) {
         db.collection('users')
@@ -54,7 +51,6 @@ export default defineComponent({
           .then((doc) => {
             if (doc.exists) {
               const userDB = doc.data();
-
               state.value.id = user.value.uid;
               state.value.nome = userDB.nome;
               if (userDB.tipo_utente > 2) {
@@ -69,7 +65,6 @@ export default defineComponent({
           });
       }
     });
-
     return { currentPage };
   },
 });
