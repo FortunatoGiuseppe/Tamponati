@@ -15,9 +15,10 @@ import NoLoginHome from 'src/components/NoLoginHome.vue';
 import CittadinoHome from 'src/components/CittadinoHome.vue';
 import LaboratorioHome from 'src/components/LaboratorioHome.vue';
 import MedicoHome from 'src/components/MedicoHome.vue';
-import DatoreHome from 'src/components/MedicoHome.vue';
+import DatoreHome from 'src/components/DatoreHome.vue';
 import AmministratoreHome from 'src/components/AmministratoreHome.vue';
 import AslHome from 'src/components/AslHome.vue';
+
 export default defineComponent({
   name: 'PageIndex',
   components: { NoLoginHome, CittadinoHome, MedicoHome, DatoreHome, LaboratorioHome, AmministratoreHome, AslHome },

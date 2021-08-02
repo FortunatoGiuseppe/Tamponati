@@ -63,7 +63,13 @@
           label="Password"
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
-
+        <q-input
+          v-model="register.password2"
+          outlined
+          type="password"
+          label="Conferma password"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
         <q-stepper-navigation>
           <q-btn type="submit" color="primary" label="Registrati" @click="step = 2" />
           <q-btn flat color="primary" label="Indietro" class="q-ml-sm" @click="step = 1" />
@@ -107,7 +113,7 @@ export default defineComponent({
             uid: userCr.uid,
             approvato: false,
           });
-          router.push('#');
+          router.push('/');
           $q.notify({
             type: 'positive',
             position: 'top',

@@ -1,16 +1,32 @@
 <template>
   <div>
     <h1>Datore di Lavoro</h1>
-   <!-- <q-page-sticky position="bottom-right" :offset="[24, 24]">-->
-  <div class="row justify-evenly">
+    <!-- <q-page-sticky position="bottom-right" :offset="[24, 24]">-->
+    <div class="row justify-evenly">
       <div class="col-4">
-        <q-btn class="full-width" rounded size="19px" icon="add" label="Nuova Prenotazione" color="primary" @click="openPrenota" />
+        <q-btn
+          class="full-width"
+          rounded
+          size="19px"
+          icon="add"
+          label="Prenotazione"
+          color="primary"
+          @click="openPrenota"
+        />
       </div>
       <div class="col-4">
-        <q-btn class="full-width" rounded size="19px" icon="book" label="Agenda personale" color="primary" @click="openAgenda"/>
+        <q-btn
+          class="full-width"
+          rounded
+          size="19px"
+          icon="book"
+          label="Agenda personale"
+          color="primary"
+          @click="openAgenda"
+        />
       </div>
-  </div>
-   <!-- </q-page-sticky> -->
+    </div>
+    <!-- </q-page-sticky> -->
   </div>
 </template>
 
@@ -35,7 +51,7 @@ export default defineComponent({
       }).onOk(async (val) => {});
     };
 
-    return { openPrenota,openAgenda};
+    return { openPrenota, openAgenda };
   },
 });
 </script>

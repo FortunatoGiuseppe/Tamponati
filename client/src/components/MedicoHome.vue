@@ -3,10 +3,26 @@
     <h1>Medico</h1>
     <div class="row justify-evenly">
       <div class="col-4">
-        <q-btn class="full-width" rounded size="19px" icon="add" label="Nuova Prenotazione" color="primary" @click="openPrenota" />
+        <q-btn
+          class="full-width"
+          rounded
+          size="19px"
+          icon="add"
+          label="Prenotazione"
+          color="primary"
+          @click="openPrenota"
+        />
       </div>
       <div class="col-4">
-        <q-btn class="full-width" rounded size="19px" icon="book" label="Agenda personale" color="primary" @click="openAgenda"/>
+        <q-btn
+          class="full-width"
+          rounded
+          size="19px"
+          icon="book"
+          label="Agenda personale"
+          color="primary"
+          @click="openAgenda"
+        />
       </div>
     </div>
   </div>
@@ -33,7 +49,7 @@ export default defineComponent({
       }).onOk(async (val) => {});
     };
 
-    return { openPrenota,openAgenda};
+    return { openPrenota, openAgenda };
   },
 });
 </script>

@@ -138,7 +138,7 @@ export default defineComponent({
             uid: userCr.uid,
             approvato: false,
           });
-          router.push('#'); //non deve andare nella page lab
+          router.push('/'); //non deve andare nella page lab
           $q.notify({
             type: 'positive',
             position: 'top',
@@ -172,6 +172,7 @@ export default defineComponent({
           provincia: register.value.provincia,
           citta: register.value.citta,
           cap: register.value.cap,
+          approvato: false,
         });
 
         $q.notify({

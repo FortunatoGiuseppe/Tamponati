@@ -43,7 +43,33 @@
         </q-stepper-navigation>
       </q-step>
 
-      <q-step :name="2" title="Email e Password" icon="email" :done="step > 2">
+      <q-step :name="2" title="Azienda" icon="business" :done="step > 2">
+        <q-input
+          v-model="register.nomeAzienda"
+          outlined
+          label="Nome Azienda"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
+        <q-input
+          v-model="register.piva"
+          outlined
+          label="Partita IVA"
+          mask="###########"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
+        <q-input
+          v-model="register.indirizzo"
+          outlined
+          label="Indirizzo"
+          :rules="[(val) => !!val || 'Campo Richiesto']"
+        />
+        <q-stepper-navigation>
+          <q-btn color="primary" label="Continua" @click="step = 3" />
+          <q-btn flat color="primary" label="Indietro" class="q-ml-sm" @click="step = 1" />
+        </q-stepper-navigation>
+      </q-step>
+
+      <q-step :name="3" title="Email e Password" icon="email" :done="step > 3">
         <q-input
           v-model="register.email"
           outlined
@@ -66,32 +92,6 @@
           :rules="[(val) => !!val || 'Campo Richiesto']"
         />
 
-        <q-stepper-navigation>
-          <q-btn color="primary" label="Continua" @click="step = 3" />
-          <q-btn flat color="primary" label="Indietro" class="q-ml-sm" @click="step = 1" />
-        </q-stepper-navigation>
-      </q-step>
-
-      <q-step :name="3" title="Azienda" icon="business" :done="step > 3">
-        <q-input
-          v-model="register.nomeAzienda"
-          outlined
-          label="Nome Azienda"
-          :rules="[(val) => !!val || 'Campo Richiesto']"
-        />
-        <q-input
-          v-model="register.piva"
-          outlined
-          label="Partita IVA"
-          mask="###########"
-          :rules="[(val) => !!val || 'Campo Richiesto']"
-        />
-        <q-input
-          v-model="register.indirizzo"
-          outlined
-          label="Indirizzo"
-          :rules="[(val) => !!val || 'Campo Richiesto']"
-        />
         <q-stepper-navigation>
           <q-btn type="submit" color="primary" label="Registrati" @click="step = 3" />
           <q-btn flat color="primary" label="Indietro" class="q-ml-sm" @click="step = 2" />
