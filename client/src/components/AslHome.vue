@@ -66,6 +66,7 @@
                 <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
                 <q-select
                   v-model="visibleColumns"
+                  label="Seleziona campi"
                   multiple
                   outlined
                   dense
@@ -135,6 +136,7 @@
 
                 <q-select
                   v-model="visibleColumns"
+                  label="ciao"
                   multiple
                   outlined
                   dense

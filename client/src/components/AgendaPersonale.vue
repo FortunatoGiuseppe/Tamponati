@@ -41,9 +41,12 @@ v-model="dialog"
                     <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
                     <q-select
                     v-model="visibleColumns1"
+                    label="Seleziona campi tabella"
                     multiple
                     outlined
                     dense
+                    use-chips
+                    color="primary"
                     options-dense
                     :display-value="$q.lang.table.columns"
                     emit-value
@@ -70,8 +73,12 @@ v-model="dialog"
                         <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
                          <q-select
                         v-model="visibleColumns2"
+                        label="Seleziona campi tabella"
                         multiple
+                        use-input
                         outlined
+                        use-chips
+                        color="primary"
                         dense
                         options-dense
                         :display-value="$q.lang.table.columns"
@@ -79,8 +86,8 @@ v-model="dialog"
                         map-options
                         :options="colonne2"
                         option-value="name"
-                        options-cover
-                        style="min-width: 150px"
+                        option-label="name"
+                        style="min-width: 150px;"
                         ></q-select>
                         </template>
                     </q-table>
@@ -153,7 +160,7 @@ export default defineComponent({
                     cognome: doc.data().cognome,
                     nome: doc.data().nome,
                     laboratorio: doc.data().id_laboratorio,
-                    datatampone: doc.data().data,
+                    data:  date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
                     esito: doc.data().esito,
                     tipotampone: doc.data().tipotampone,
                     prenotatoda: doc.data().prenotatoda,
