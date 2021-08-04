@@ -1,23 +1,23 @@
 <template>
   <div>
-    <h1>Medico</h1>
-    <div class="row justify-evenly">
-      <div class="col-4">
+    <h1 style="font-size:calc(40px + 4vw);">Medico</h1>
+    <div style="width:100%">
+      <div style="width:50%;  float:left; padding:20px; min-width:160px; text-align: center">
         <q-btn
           class="full-width"
           rounded
-          size="19px"
+          style="font-size:min(20px,calc(10px + 2vw)); min-width:130px; max-width:500px;"
           icon="add"
           label="Prenotazione"
           color="primary"
           @click="openPrenota"
         />
       </div>
-      <div class="col-4">
+      <div style="width:50%; float:left;  padding:20px; min-width:130px; text-align: center">
         <q-btn
           class="full-width"
           rounded
-          size="19px"
+          style="font-size:min(20px,calc(10px + 2vw)); min-width:130px; max-width:500px;"
           icon="book"
           label="Agenda personale"
           color="primary"

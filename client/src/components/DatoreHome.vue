@@ -1,24 +1,24 @@
 <template>
   <div>
-    <h1>Datore di Lavoro</h1>
+    <h1 style="font-size:calc(40px + 4vw);">Datore di Lavoro</h1>
     <!-- <q-page-sticky position="bottom-right" :offset="[24, 24]">-->
-    <div class="row justify-evenly">
+    <div style="width:50%;  float:left; padding:20px; min-width:160px; text-align: center">
       <div class="col-4">
         <q-btn
           class="full-width"
           rounded
-          size="19px"
+          style="font-size:min(20px,calc(10px + 2vw)); min-width:130px; max-width:500px;"
           icon="add"
           label="Prenotazione"
           color="primary"
           @click="openPrenota"
         />
       </div>
-      <div class="col-4">
+      <div style="width:50%; float:left;  padding:20px; min-width:130px; text-align: center">
         <q-btn
           class="full-width"
           rounded
-          size="19px"
+          style="font-size:min(20px,calc(10px + 2vw)); min-width:130px; max-width:500px;"
           icon="book"
           label="Agenda personale"
           color="primary"

@@ -4,11 +4,11 @@
         <q-card-section vertical>
           <q-card-section class="q-pt-xs">
             <div class="text-overline">informativa</div>
-            <div class="text-h4 q-mt-sm q-mb-xs">
+            <div class="text-weight-bold titoloInfo">
               INFORMATIVA UTENTI e CONSENSO INFORMATO AL TAMPONE PER COVID-19 (CORONAVIRUS SARS-COV-2)
             </div>
             <br /><q-separator></q-separator><br />
-            <div class="text-h5 text-weight-bold">Che cos’è e come si esegue</div>
+            <div class="text-weight-bold titolettoInfo">Che cos’è e come si esegue</div>
             <div class="text-body1 text-justify">
               Il tampone è un esame rapido (eseguito in pochi secondi) e che permette di rilevare la presenza o meno del
               virus SARS Cov-2 che è l’agente eziologico del COVID-19 (Corona Virus Disease-2019).
@@ -32,7 +32,7 @@
               PCR a mezzo "Amplificatore delle catene genetiche
             </div>
             <br /><q-separator></q-separator><br />
-            <div class="text-h5 text-weight-bold">Possibili risultati del test:</div>
+            <div class="text-weight-bold titolettoInfo">Possibili risultati del test:</div>
             <div class="text-body1 text-justify">
               <ul>
                 <li>Risultato NEGATIVO:<br />non risultano infezioni in corso da virus SARS Cov-2</li>
@@ -45,7 +45,7 @@
               </ul>
             </div>
             <br /><q-separator></q-separator><br />
-            <div class="text-h5 text-weight-bold">Limiti del test:</div>
+            <div class="text-weight-bold titolettoInfo">Limiti del test:</div>
             <div class="text-body1 text-justify">
               Il risultato del test è attendibile con una specificità del 95%, non è del tutto esclusa la possibilità
               che il test generi falsi positivi o falsi negativi. Inoltre, il test “fotografa” la situazione in un
@@ -53,8 +53,8 @@
               in fase iniziale o che si possa venire infettati in un momento successivo al test.
             </div>
             <br /><q-separator></q-separator><br />
-            <div class="text-h5 text-weight-bold">Il Coronavirus:</div>
-            <div class="text-body2 text-justify">
+            <div class="text-weight-bold titolettoInfo">Il Coronavirus:</div>
+            <div class="text-body1 text-justify">
               I Coronavirus sono una vasta famiglia di virus noti per causare malattie che vanno dal comune raffreddore
               a malattie più gravi come la Sindrome respiratoria mediorientale (MERS) e la Sindrome respiratoria acuta
               grave (SARS). Ad oggi sono sette i coronavirus noti per causare malattie negli esseri umani. Hanno

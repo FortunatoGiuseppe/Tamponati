@@ -152,13 +152,14 @@
     @extend .scaleOut-leave-to;
   }
 }
-
+.titoloInfo{
+  font-size:25px;
+}
+.titolettoInfo{
+  font-size:20px;
+}
 .info {
   width: 60%;
-  min-width: 500px;
-}
-p.info {
-  font-size: 17px;
 }
 //NAVBAR
 .toolBar_btn {
@@ -169,7 +170,7 @@ p.info {
     font-size: 11px;
   }
 }
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1340px) {
   .info,
   .chiSiamo {
     width: 90%;
@@ -179,10 +180,10 @@ p.info {
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
   .info{
     width: 100%;
-    padding-top: 550px;
+    padding-top: 150px;
   }
   .chiSiamo {
     width: 100%;
@@ -191,15 +192,78 @@ p.info {
   .cartaChiSiamo {
     width: 100px;
   }
-  p.info {
-    font-size: 10px;
-  }
+
   h1.home {
     font-size: 45px;
   }
   h3.home {
     font-size: 30px;
   }
+}
+
+@media only screen and (max-width: 742px) {
+  .info{
+    width: 100%;
+    padding-top: 500px;
+  }
+  .titoloInfo{
+    font-size:23px;
+  }
+
+}
+@media only screen and (max-width: 600px) {
+  .info{
+    width: 100%;
+    padding-top: 700px;
+  }
+  .titoloInfo{
+    font-size:20px;
+  }
+  .titolettoInfo{
+    font-size:18px;
+  }
+
+}
+@media only screen and (max-width: 500px) {
+  .info{
+    width: 100%;
+    padding-top: 1100px;
+  }
+
+}
+@media only screen and (max-width: 450px) {
+  .info{
+    width: 100%;
+    padding-top: 1370px;
+  }
+
+}
+@media only screen and (max-width: 400px) {
+  .info{
+    width: 100%;
+    padding-top: 1600px;
+  }
+
+}
+@media only screen and (max-width: 360px) {
+  .info{
+    width: 100%;
+    padding-top: 1800px;
+  }
+
+}
+@media only screen and (max-width: 320px) {
+  .info{
+    width: 100%;
+    padding-top: 2200px;
+  }
+  .titoloInfo{
+    font-size:16px;
+  }
+  .titolettoInfo{
+    font-size:16px;
+  }
+
 }
 
 #tabellaStatistici tr:nth-child(even) {
