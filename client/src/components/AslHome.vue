@@ -237,6 +237,11 @@ export default defineComponent({
             tipotampone: doc.data().tipotampone,
             prenotatoda: doc.data().prenotatoda,
           };
+          if(doc.data().esito==true){
+              data.esito= 'positivo';
+          } else {
+              data.esito= 'negativo';
+          }
           this.statistici.push(data);
         });
         watch(
@@ -277,6 +282,11 @@ export default defineComponent({
             tipotampone: doc.data().tipotampone,
             prenotatoda: doc.data().prenotatoda,
           };
+          if(doc.data().esito==true){
+              data.esito= 'positivo';
+          } else {
+              data.esito= 'negativo';
+          }
           this.risultati.push(data);
         });
       });

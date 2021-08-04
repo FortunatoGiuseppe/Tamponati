@@ -148,16 +148,22 @@ export default defineComponent({
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-            tamponiEseguiti.value.push({
-                id: doc.id,
-                data: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
-                codicefiscale: doc.data().codicefiscale,
-                nome: doc.data().nome,
-                cognome: doc.data().cognome,
-                esito: doc.data().esito,
-                tipotampone: doc.data().tipotampone,
-                laboratorio: doc.data().id_laboratorio,
-                });
+                const data = {
+                    codicefiscale: doc.data().codicefiscale,
+                    cognome: doc.data().cognome,
+                    nome: doc.data().nome,
+                    laboratorio: doc.data().id_laboratorio,
+                    datatampone: doc.data().data,
+                    esito: doc.data().esito,
+                    tipotampone: doc.data().tipotampone,
+                    prenotatoda: doc.data().prenotatoda,
+                };
+                if(doc.data().esito==true){
+                    data.esito= 'positivo';
+                } else {
+                    data.esito= 'negativo';
+                }
+                tamponiEseguiti.value.push(data);
             });
         });
 
