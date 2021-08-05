@@ -68,8 +68,49 @@
             </template>
           </q-select>
           <q-date v-model="data" :landscape="$q.screen.gt.md" :options="dateDispo" />
+
+          <q-select
+            v-if="state.tipo_utente == 1 || state.tipo_utente == 3"
+            v-model="register.pagamento"
+            outlined
+            label="Tipo di Pagamento"
+            :options="optionsPayment"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
+          <q-input
+            v-if="register.pagamento == 'Online'"
+            v-model="register.nomeintestatario"
+            outlined
+            label="Nome intestatario della carta"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
+          <q-input
+            v-if="register.pagamento == 'Online'"
+            v-model="register.numerocarta"
+            outlined
+            label="Numero carta"
+            mask="#### #### #### ####"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
+          <q-input
+            v-if="register.pagamento == 'Online'"
+            v-model="register.datascadenza"
+            outlined
+            label="Data scadenza"
+            mask="##/##"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
+          <q-input
+            v-if="register.pagamento == 'Online'"
+            v-model="register.cvv"
+            outlined
+            label="CVV"
+            mask="###"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
         </q-card-section>
         <q-separator />
+
         <q-card-actions align="right">
           <q-btn v-close-popup label="Annulla" color="grey" flat />
           <q-btn type="submit" color="primary" label="Prenota" flat />
@@ -173,18 +214,36 @@ export default defineComponent({
 
       try {
         if (state.value.tipo_utente == 1) {
-          await db.collection('prenotazioni').add({
-            prenotatoda: state.value.id,
-            tipotampone: tipotampone.value,
-            id_laboratorio: id_laboratorio.value,
-            data: firebase.firestore.Timestamp.fromDate(date.extractDate(data.value, 'YYYY/MM/DD')),
-            nome: state.value.nome,
-            cognome: state.value.cognome,
-            codicefiscale: state.value.cf,
-            confermato: 0,
-            esito: null,
-          });
-        } else {
+          if (register.value.pagamento == 'Online') {
+            await db.collection('prenotazioni').add({
+              prenotatoda: state.value.id,
+              tipotampone: tipotampone.value,
+              id_laboratorio: id_laboratorio.value,
+              data: firebase.firestore.Timestamp.fromDate(date.extractDate(data.value, 'YYYY/MM/DD')),
+              nome: state.value.nome,
+              cognome: state.value.cognome,
+              codicefiscale: state.value.cf,
+              nomeintestatario: register.value.nomeintestatario,
+              numerocarta: register.value.numerocarta,
+              datascadenza: register.value.datascadenza,
+              cvv: register.value.cvv,
+              confermato: 0,
+              esito: null,
+            });
+          } else {
+            await db.collection('prenotazioni').add({
+              prenotatoda: state.value.id,
+              tipotampone: tipotampone.value,
+              id_laboratorio: id_laboratorio.value,
+              data: firebase.firestore.Timestamp.fromDate(date.extractDate(data.value, 'YYYY/MM/DD')),
+              nome: state.value.nome,
+              cognome: state.value.cognome,
+              codicefiscale: state.value.cf,
+              confermato: 0,
+              esito: null,
+            });
+          }
+        } else if (state.value.tipo_utente == 2) {
           await db.collection('prenotazioni').add({
             prenotatoda: state.value.id,
             tipotampone: tipotampone.value,
@@ -196,6 +255,36 @@ export default defineComponent({
             confermato: 0,
             esito: null,
           });
+        } else if (state.value.tipo_utente == 3) {
+          if (register.value.pagamento == 'Online') {
+            await db.collection('prenotazioni').add({
+              prenotatoda: state.value.id,
+              tipotampone: tipotampone.value,
+              id_laboratorio: id_laboratorio.value,
+              data: firebase.firestore.Timestamp.fromDate(date.extractDate(data.value, 'YYYY/MM/DD')),
+              nome: register.value.nome,
+              cognome: register.value.cognome,
+              codicefiscale: register.value.codicefiscale,
+              nomeintestatario: register.value.nomeintestatario,
+              numerocarta: register.value.numerocarta,
+              datascadenza: register.value.datascadenza,
+              cvv: register.value.cvv,
+              confermato: 0,
+              esito: null,
+            });
+          } else {
+            await db.collection('prenotazioni').add({
+              prenotatoda: state.value.id,
+              tipotampone: tipotampone.value,
+              id_laboratorio: id_laboratorio.value,
+              data: firebase.firestore.Timestamp.fromDate(date.extractDate(data.value, 'YYYY/MM/DD')),
+              nome: register.value.nome,
+              cognome: register.value.cognome,
+              codicefiscale: register.value.codicefiscale,
+              confermato: 0,
+              esito: null,
+            });
+          }
         }
 
         onDialogOK();
@@ -223,6 +312,7 @@ export default defineComponent({
       options: ['Molecolare', 'Antigenico'],
       optionsProvince,
       optionsLaboratori,
+      optionsPayment: ['Online', 'In Struttura'],
       getLabs,
       tipotampone,
       provincia,
