@@ -14,7 +14,7 @@
           </q-card-section>
 
           <q-card-section class="row justify-center items-center q-gutter-md">
-            <q-card class="my-card q-pa-xs" style="background: #1976d2">
+            <q-card class="my-card q-pa-xs">
               <q-avatar rounded size="200px">
                 <img src="../img/fortunato.jpg" />
               </q-avatar>
@@ -23,7 +23,7 @@
               </q-card-actions>
             </q-card>
 
-            <q-card class="my-card q-pa-xs flat">
+            <q-card class="my-card q-pa-xs">
               <q-avatar rounded size="200px">
                 <img src="../img/alemanno.jpg" />
               </q-avatar>

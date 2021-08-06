@@ -266,16 +266,26 @@
 
 }
 
-#tabellaStatistici tr:nth-child(even) {
-  background-color: #00000008;
+#tabellaStatistici tr:nth-child(even),#tabellaAgenda tr:nth-child(even) {
+  background-color: #00000005;
 }
+#tabellaAgenda th {
+  background-color: #bdbfc279;
+}
+#tabellaAgenda .q-table__bottom,#tabellaAgenda .q-table__top,
+#tabellaAgenda thead tr:first-child th {
+  background-color: #bdbfc279;
+}
+
 #tabellaStatistici th {
   background-color: #448aff;
 }
-#tabellaStatistici .q-table__bottom,
+#tabellaStatistici .q-table__bottom, #tabellaStatistici .q-table__top,
 #tabellaStatistici thead tr:first-child th {
   background-color: #448aff;
 }
+
+
 
 .sfondoHome,
 .sfondoChiSiamo,

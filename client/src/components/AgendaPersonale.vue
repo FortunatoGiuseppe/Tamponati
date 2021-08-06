@@ -30,13 +30,39 @@ v-model="dialog"
                 <div class="q-pa-sd">
                     <div class="text-h6">Prenotazioni attive:</div>
                     <q-table
+                        id="tabellaAgenda"
                         title="Prenotazioni:"
                         :rows="prenotazioni"
                         :columns="colonne1"
                         :pagination="{ page: 1, rowsPerPage: 0 }"
                         row-key="id"
                         :visible-columns="visibleColumns1"
+                        
                     >
+                        <template #header-cell-codicefiscale="props">
+                            <q-th :props="props">
+                            <q-icon name="badge" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
+                        <template #header-cell-data="props">
+                            <q-th :props="props">
+                            <q-icon name="history" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
+                        <template #header-cell-laboratorio="props">
+                            <q-th :props="props">
+                            <q-icon name="biotech" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
+                        <template #header-cell-tipotampone="props">
+                            <q-th :props="props">
+                            <q-icon name="vaccines" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
                     <template #top>
                     <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
                     <q-select
@@ -62,6 +88,7 @@ v-model="dialog"
                 <div class="q-pa-sd">
                     <div class="text-h6">Esiti tamponi:</div>
                     <q-table
+                        id="tabellaAgenda"
                         title="Tamponi Eseguiti:"
                         :rows="tamponiEseguiti"
                         :columns="colonne2"
@@ -69,6 +96,36 @@ v-model="dialog"
                         row-key="id"
                         :visible-columns="visibleColumns2"
                     > 
+                        <template #header-cell-codicefiscale="props">
+                            <q-th :props="props">
+                            <q-icon name="badge" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
+                        <template #header-cell-data="props">
+                            <q-th :props="props">
+                            <q-icon name="history" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
+                        <template #header-cell-esito="props">
+                            <q-th :props="props">
+                            <q-icon name="coronavirus" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
+                        <template #header-cell-laboratorio="props">
+                            <q-th :props="props">
+                            <q-icon name="biotech" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
+                        <template #header-cell-tipotampone="props">
+                            <q-th :props="props">
+                            <q-icon name="vaccines" size="2em"></q-icon>
+                            {{ props.col.label }}
+                            </q-th>
+                        </template>
                         <template #top>
                         <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
                          <q-select
@@ -117,7 +174,7 @@ export default defineComponent({
             { name: 'cognome', label: 'cognome', field: 'cognome', sortable: true, align: 'left' },
             { name: 'nome', label: 'nome', field: 'nome', sortable: true, align: 'left' },
             { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
-            { name: 'tipotampone', label: 'tipo tampone', field: 'tipotampone', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),},
+            { name: 'tipotampone', label: 'tipo tampone', field: 'tipotampone', sortable: true},
         ];
 
         const colonne2 = [
@@ -127,7 +184,7 @@ export default defineComponent({
             { name: 'nome', label: 'nome', field: 'nome', sortable: true, align: 'left' },
             { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
             { name: 'esito', label: 'esito', field: 'esito', sortable: true, align: 'left' },
-            { name: 'tipotampone', label: 'tipo tampone', field: 'tipotampone', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),},
+            { name: 'tipotampone', label: 'tipo tampone', field: 'tipotampone', sortable: true},
         ];
 
         db.collection('prenotazioni')
@@ -136,7 +193,7 @@ export default defineComponent({
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-            prenotazioni.value.push({
+            const data = {
                 id: doc.id,
                 data: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
                 codicefiscale: doc.data().codicefiscale,
@@ -144,7 +201,17 @@ export default defineComponent({
                 cognome: doc.data().cognome,
                 tipotampone: doc.data().tipotampone,
                 laboratorio: doc.data().id_laboratorio,
+            };
+            db.collection('users')
+            .where('tipo_utente', '==', 4)
+            .where('uid', '==', data.laboratorio)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                 data.laboratorio = doc.data().nome;
                 });
+            });
+            prenotazioni.value.push(data);
             });
         });
 
@@ -170,6 +237,15 @@ export default defineComponent({
                 } else {
                     data.esito= 'negativo';
                 }
+                db.collection('users')
+                .where('tipo_utente', '==', 4)
+                .where('uid', '==', data.laboratorio)
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                     data.laboratorio = doc.data().nome;
+                    });
+                });
                 tamponiEseguiti.value.push(data);
             });
         });

@@ -57,7 +57,7 @@
               </template>
               <template #header-cell-tipotampone="props">
                 <q-th :props="props">
-                  <q-icon name="text_fields" size="2em"></q-icon>
+                  <q-icon name="vaccines" size="2em"></q-icon>
                   {{ props.col.label }}
                 </q-th>
               </template>
@@ -66,9 +66,12 @@
                 <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
                 <q-select
                   v-model="visibleColumns"
-                  label="Seleziona campi"
+                  label="Seleziona campi tabella"
                   multiple
+                  use-input
                   outlined
+                  use-chips
+                  color="primary"
                   dense
                   options-dense
                   :display-value="$q.lang.table.columns"
@@ -76,8 +79,7 @@
                   map-options
                   :options="columns"
                   option-value="name"
-                  options-cover
-                  style="min-width: 150px"
+                  option-label="name"
                 ></q-select>
               </template>
             </q-table>
@@ -136,9 +138,12 @@
 
                 <q-select
                   v-model="visibleColumns"
-                  label="ciao"
+                  label="Seleziona campi tabella"
                   multiple
+                  use-input
                   outlined
+                  use-chips
+                  color="primary"
                   dense
                   options-dense
                   :display-value="$q.lang.table.columns"
@@ -146,8 +151,7 @@
                   map-options
                   :options="columns"
                   option-value="name"
-                  options-cover
-                  style="min-width: 150px"
+                  option-label="name"
                 ></q-select>
               </template>
             </q-table>
@@ -244,6 +248,15 @@ export default defineComponent({
           } else {
               data.esito= 'negativo';
           }
+          db.collection('users')
+            .where('tipo_utente', '==', 4)
+            .where('uid', '==', data.laboratorio)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                 data.laboratorio = doc.data().nome;
+                });
+          });
           this.statistici.push(data);
         });
         watch(
@@ -289,6 +302,15 @@ export default defineComponent({
           } else {
               data.esito= 'negativo';
           }
+          db.collection('users')
+            .where('tipo_utente', '==', 4)
+            .where('uid', '==', data.laboratorio)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                 data.laboratorio = doc.data().nome;
+                });
+            });
           this.risultati.push(data);
         });
       });
