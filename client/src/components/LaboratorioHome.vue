@@ -59,6 +59,28 @@
             </template>
           </q-table>
         </div>
+        <div class="q-pa-md">
+          <q-table
+            title="Refertati"
+            :rows="refertati"
+            :columns="colRefertare"
+            :pagination="{ page: 1, rowsPerPage: 4 }"
+            row-key="id"
+            binary-state-sort
+            bordered
+            flat
+          >
+            <template #body-cell-esito="props">
+              <q-td :props="props">
+                <q-option-group
+                  v-model="props.row.esito"
+                  :options="optionsEsito"
+                  @update:model-value="(value) => updateEsitoTampone(value, props.row)"
+                />
+              </q-td>
+            </template>
+          </q-table>
+        </div>
       </div>
       <div class="col-4">
         <vue3-chart-js
@@ -67,6 +89,7 @@
           :type="doughnutChart.type"
           :data="doughnutChart.data"
           :options="doughnutChart.options"
+          style="font-color:white"
         />
       </div>
     </div>
@@ -168,6 +191,7 @@ export default defineComponent({
     db.collection('prenotazioni')
       .where('id_laboratorio', '==', state.value.id)
       .where('confermato', '==', 1)
+      .where('esito', '==', null)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -183,6 +207,26 @@ export default defineComponent({
           });
         });
       });
+      const refertati = ref([]);
+      db.collection('prenotazioni')
+        .where('id_laboratorio', '==', state.value.id)
+        .where('confermato', '==', 1)
+        .where('esito', 'in', [true,false])
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const { nome, cognome, codicefiscale, esito } = doc.data();
+            refertati.value.push({
+              id: doc.id,
+              data: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
+              codicefiscale,
+              nome,
+              cognome,
+              confermato: true,
+              esito,
+            });
+          });
+        });
 
     const confermaTampone = async (row) => {
       await db.collection('prenotazioni').doc(row.id).update({ confermato: 1 });
@@ -209,10 +253,10 @@ export default defineComponent({
     const updateEsitoTampone = async (value, row) => {
       await db.collection('prenotazioni').doc(row.id).update({ esito: value });
 
-      const idx = daConfermare.value.findIndex((el) => el.id === row.id);
+      const idx = daRefertare.value.findIndex((el) => el.id === row.id);
       if (idx !== -1) {
-        daConfermare.value.splice(idx, 1);
-        daRefertare.value.push(row);
+        daRefertare.value.splice(idx, 1);
+        refertati.value.push(row);
       }
     };
 
@@ -228,15 +272,15 @@ export default defineComponent({
     };
 
     watch(
-      daRefertare,
+      refertati,
       () => {
         console.log(1);
-        const positivi = daRefertare.value.reduce((acc, val) => acc + (val.esito === true ? 1 : 0), 0);
-        const negativi = daRefertare.value.reduce((acc, val) => acc + (val.esito === false ? 1 : 0), 0);
+        const positivi = refertati.value.reduce((acc, val) => acc + (val.esito === true ? 1 : 0), 0);
+        const negativi = refertati.value.reduce((acc, val) => acc + (val.esito === false ? 1 : 0), 0);
 
         doughnutChart.data.datasets = [
           {
-            backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
+            backgroundColor: ['rgb(255, 99, 132)', 'rgb(29, 116, 206)'],
             data: [positivi, negativi],
             hoverOffset: 4,
           },
@@ -254,6 +298,7 @@ export default defineComponent({
       colRefertare,
       daConfermare,
       daRefertare,
+      refertati,
       confermaTampone,
       updateDataTampone,
       chartRef,
