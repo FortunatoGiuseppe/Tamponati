@@ -17,9 +17,8 @@
         <q-tab-panel name="one">
           <div class="q-pa-md">
             <q-table
-              id="tabellaStatistici"
+              id="tabellaAgenda"
               title="Esiti tamponi:"
-              table-header-class="bg-blue-12 text-white"
               :rows="statistici"
               :columns="columns"
               row-key="name"
@@ -63,8 +62,15 @@
               </template>
 
               <template #top>
-                <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
+                <div class="text-h7 text-weight-bold q-pr-xl">Mostra filtri:</div>
+                <q-toggle
+                  v-model="value"
+                  color="primary"
+                  keep-color
+                  class ="q-pr-xl"
+                ></q-toggle>
                 <q-select
+                  v-if="value == true"
                   v-model="visibleColumns"
                   label="Seleziona campi tabella"
                   multiple
@@ -89,9 +95,8 @@
         <q-tab-panel name="two">
           <div class="q-pa-md">
             <q-table
-              id="tabellaStatistici"
+              id="tabellaAgenda"
               title="Esiti tamponi:"
-              table-header-class="bg-blue-12 text-white"
               :rows="risultati"
               :columns="columns"
               row-key="name"
@@ -134,9 +139,15 @@
                 </q-th>
               </template>
               <template #top>
-                <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
-
+                <div class="text-h7 text-weight-bold q-pr-xl">Mostra filtri:</div>
+                <q-toggle
+                            v-model="value2"
+                            color="primary"
+                            keep-color
+                            class ="q-pr-xl"
+                        ></q-toggle>
                 <q-select
+                  v-if="value2 == true"
                   v-model="visibleColumns"
                   label="Seleziona campi tabella"
                   multiple
@@ -173,6 +184,7 @@
 
 <script>
 import { defineComponent, ref, watch } from 'vue';
+import { date } from 'quasar';
 import { db } from 'boot/firebase';
 import Vue3ChartJs from '@j-t-mcc/vue3-chartjs';
 
@@ -205,7 +217,7 @@ export default defineComponent({
         { name: 'cognome', label: 'cognome', field: 'cognome', sortable: true, align: 'left' },
         { name: 'nome', label: 'nome', field: 'nome', sortable: true, align: 'left' },
         { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
-        { name: 'data', label: 'data', field: 'datatampone', sortable: true, align: 'center' },
+        { name: 'data', label: 'data', field: 'datatampone', sortable: true, align: 'center', sortable: true, sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'), },
         { name: 'esito', label: 'esito', field: 'esito', sortable: true, align: 'left' },
         {
           name: 'tipotampone',
@@ -216,7 +228,8 @@ export default defineComponent({
         },
         { name: 'prenotatoda', label: 'prenotato da', field: 'prenotatoda', sortable: true, align: 'center' },
       ],
-
+      value: ref(false),
+      value2: ref(false),
       statistici: [],
       risultati: [],
       chartRef,
@@ -238,7 +251,7 @@ export default defineComponent({
             cognome: doc.data().cognome,
             nome: doc.data().nome,
             laboratorio: doc.data().id_laboratorio,
-            datatampone: doc.data().data,
+            datatampone: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
             esito: doc.data().esito,
             tipotampone: doc.data().tipotampone,
             prenotatoda: doc.data().prenotatoda,
@@ -292,7 +305,7 @@ export default defineComponent({
             cognome: doc.data().cognome,
             nome: doc.data().nome,
             laboratorio: doc.data().id_laboratorio,
-            datatampone: doc.data().data,
+            datatampone: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
             esito: doc.data().esito,
             tipotampone: doc.data().tipotampone,
             prenotatoda: doc.data().prenotatoda,

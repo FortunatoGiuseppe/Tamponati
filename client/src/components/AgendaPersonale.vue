@@ -64,8 +64,15 @@ v-model="dialog"
                             </q-th>
                         </template>
                     <template #top>
-                    <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
+                    <div class="text-h7 text-weight-bold">Mostra filtri:</div>
+                    <q-toggle
+                        v-model="value"
+                        color="primary"
+                        keep-color
+                        class ="q-pr-xl"
+                    ></q-toggle>
                     <q-select
+                    v-if="value == true"
                     v-model="visibleColumns1"
                     label="Seleziona campi tabella"
                     multiple
@@ -127,8 +134,15 @@ v-model="dialog"
                             </q-th>
                         </template>
                         <template #top>
-                        <div class="text-h7 text-weight-bold q-pr-xl">Campi da visualizzare:</div>
+                        <div class="text-h7 text-weight-bold">Mostra filtri:</div>
+                        <q-toggle
+                            v-model="value2"
+                            color="primary"
+                            keep-color
+                            class ="q-pr-xl"
+                        ></q-toggle>
                          <q-select
+                         v-if="value2 == true"
                         v-model="visibleColumns2"
                         label="Seleziona campi tabella"
                         multiple
@@ -262,6 +276,8 @@ export default defineComponent({
             dialogRef,
             onDialogOK,
             onDialogHide,
+            value: ref(false),
+            value2: ref(false),
         }
     },
 })

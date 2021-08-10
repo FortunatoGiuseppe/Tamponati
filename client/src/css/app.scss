@@ -266,24 +266,15 @@
 
 }
 
-#tabellaStatistici tr:nth-child(even),#tabellaAgenda tr:nth-child(even) {
-  background-color: #00000005;
-}
+
 #tabellaAgenda th {
-  background-color: #bdbfc279;
+  background-color: #d5d8dba2;
 }
 #tabellaAgenda .q-table__bottom,#tabellaAgenda .q-table__top,
 #tabellaAgenda thead tr:first-child th {
-  background-color: #bdbfc279;
+  background-color: #d5d8dba2;
 }
 
-#tabellaStatistici th {
-  background-color: #448aff;
-}
-#tabellaStatistici .q-table__bottom, #tabellaStatistici .q-table__top,
-#tabellaStatistici thead tr:first-child th {
-  background-color: #448aff;
-}
 
 
 
