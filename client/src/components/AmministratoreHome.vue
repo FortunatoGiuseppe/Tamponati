@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <p class="text-center text-h5"><q-icon name="admin_panel_settings" size="lg" /> Laboratorio</p>
+    <p class="text-center text-h5"><q-icon name="admin_panel_settings" size="lg" /> Amministratore</p>
 
     <div class="q-py-md">
       <q-table
