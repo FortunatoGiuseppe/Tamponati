@@ -60,6 +60,9 @@
         <q-item-section>
           <q-item-label>Q.ta Tamponi</q-item-label>
         </q-item-section>
+        <q-item-section>
+          <q-item-label>Q.ta Tamponi disponibili</q-item-label>
+        </q-item-section>
         <q-item-section class="col-2 text-black" side>
           <q-item-label>Action</q-item-label>
         </q-item-section>
@@ -73,6 +76,9 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ row.qta }}</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ row.qta_disponibile }}</q-item-label>
             </q-item-section>
             <q-item-section class="col-2 text-black" side>
               <q-item-label><q-btn icon="delete" flat @click="deleteRow(row)" /></q-item-label>
@@ -101,6 +107,7 @@ export default defineComponent({
     const register = ref({
       data: '',
       qta: '',
+      qta_disponibile: '',
     });
 
     db.collection('calendari')
@@ -112,6 +119,7 @@ export default defineComponent({
           cal.push({
             data: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
             qta: doc.data().qta,
+            qta_disponibile: doc.data().qta_disponibile,
           });
         });
         calendario.value = cal;
@@ -154,6 +162,7 @@ export default defineComponent({
           id_laboratorio: state.value.id,
           data: firebase.firestore.Timestamp.fromDate(date.extractDate(register.value.data, 'DD/MM/YYYY')),
           qta: parseInt(register.value.qta),
+          qta_disponibile: parseInt(register.value.qta),
         });
       }
 
@@ -184,6 +193,21 @@ export default defineComponent({
       calendario.value.splice(index, 1);
     };
 
+    const cancellaDateVecchie = () => {
+      const index = findCalendarIndexByDate(row.data);
+
+      db.collection('calendari')
+        .where('data', '<=', firebase.firestore.Timestamp.fromDate(date.extractDate(row.data, 'DD/MM/YYYY')))
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            db.collection('calendari').doc(doc.id).delete();
+          });
+        });
+
+      calendario.value.splice(index, 1);
+    };
+
     const sortedCalendar = computed(() => {
       const res = [...calendario.value];
       res.sort((a, b) => {
@@ -193,7 +217,17 @@ export default defineComponent({
       return res;
     });
 
-    return { formRef, qtaRef, limitDateFn, checkMajToday, register, sortedCalendar, addRow, deleteRow };
+    return {
+      formRef,
+      qtaRef,
+      limitDateFn,
+      checkMajToday,
+      register,
+      sortedCalendar,
+      addRow,
+      deleteRow,
+      cancellaDateVecchie,
+    };
   },
 });
 </script>
