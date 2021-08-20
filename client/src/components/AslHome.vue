@@ -8,7 +8,7 @@
       </q-card-section>
       <q-tabs v-model="tab" class="bg-blue-12 text-white no-caps">
         <q-tab label="dati statistici" name="one" style="width: 50%" icon="analytics"></q-tab>
-        <q-tab label="esito dei tamponi" name="two" style="width: 50%" icon="view_list"></q-tab>
+        <q-tab label="tracciamento positivi" name="two" style="width: 50%" icon="view_list"></q-tab>
       </q-tabs>
 
       <q-separator></q-separator>
@@ -98,9 +98,9 @@
               id="tabellaAgenda"
               title="Esiti tamponi:"
               :rows="risultati"
-              :columns="columns"
+              :columns="columns2"
               row-key="name"
-              :visible-columns="visibleColumns"
+              :visible-columns="visibleColumns2"
             >
             <template #header-cell-codicefiscale="props">
                 <q-th :props="props">
@@ -126,6 +126,12 @@
                   {{ props.col.label }}
                 </q-th>
               </template>
+              <template #header-cell-email="props">
+                <q-th :props="props">
+                  <q-icon name="email" size="2em"></q-icon>
+                  {{ props.col.label }}
+                </q-th>
+              </template>
               <template #header-cell-laboratorio="props">
                 <q-th :props="props">
                   <q-icon name="biotech" size="2em"></q-icon>
@@ -148,7 +154,7 @@
                         ></q-toggle>
                 <q-select
                   v-if="value2 == true"
-                  v-model="visibleColumns"
+                  v-model="visibleColumns2"
                   label="Seleziona campi tabella"
                   multiple
                   use-input
@@ -160,7 +166,7 @@
                   :display-value="$q.lang.table.columns"
                   emit-value
                   map-options
-                  :options="columns"
+                  :options="columns2"
                   option-value="name"
                   option-label="name"
                 ></q-select>
@@ -211,11 +217,9 @@ export default defineComponent({
     };
     return {
       tab: ref('one'),
-      visibleColumns: ref(['codicefiscale', 'data', 'esito']),
+      visibleColumns: ref(['laboratorio','data','esito']),
+      visibleColumns2: ref(['codicefiscale', 'data','prenotatoda', 'email']),
       columns: [
-        { name: 'codicefiscale', label: 'codice fiscale', field: 'codicefiscale', sortable: true, align: 'left' },
-        { name: 'cognome', label: 'cognome', field: 'cognome', sortable: true, align: 'left' },
-        { name: 'nome', label: 'nome', field: 'nome', sortable: true, align: 'left' },
         { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
         { name: 'data', label: 'data', field: 'datatampone', sortable: true, align: 'center', sortable: true, sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'), },
         { name: 'esito', label: 'esito', field: 'esito', sortable: true, align: 'left' },
@@ -226,7 +230,22 @@ export default defineComponent({
           sortable: true,
           sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
         },
+      ],
+      columns2: [
+        { name: 'codicefiscale', label: 'codice fiscale', field: 'codicefiscale', sortable: true, align: 'left' },
+        { name: 'cognome', label: 'cognome', field: 'cognome', sortable: true, align: 'left' },
+        { name: 'nome', label: 'nome', field: 'nome', sortable: true, align: 'left' },
+        { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
+        { name: 'data', label: 'data', field: 'datatampone', sortable: true, align: 'center', sortable: true, sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'), },
+        {
+          name: 'tipotampone',
+          label: 'tipo tampone',
+          field: 'tipotampone',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+        },
         { name: 'prenotatoda', label: 'prenotato da', field: 'prenotatoda', sortable: true, align: 'center' },
+        { name: 'email', label: 'email utente registrato', field: 'email', sortable: true, align: 'left' },
       ],
       value: ref(false),
       value2: ref(false),
@@ -324,6 +343,14 @@ export default defineComponent({
                  data.laboratorio = doc.data().nome;
                 });
             });
+          db.collection('users')
+            .where('uid', '==', data.prenotatoda)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                 data.email = doc.data().email;
+                });
+          });
           this.risultati.push(data);
         });
       });
