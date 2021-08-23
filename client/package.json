@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Tamponati App",
   "productName": "Tamponati",
-  "author": "Mila76 <mila76@mila76.it>",
+  "author": "Giuseppe Fortunato <fortunatogiuseppe1997@gmail.com>",
   "private": true,
   "scripts": {
     "serve": "npx quasar dev",
