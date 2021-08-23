@@ -89,7 +89,7 @@ export default defineComponent({
       });
     const doApprova = async (type, row, value) => {
       if (type == 'lab') {
-        await db.collection('users').doc(row.uid).update({ convenzionato: value });
+        await db.collection('users').doc(row.uid).update({ approvato: value });
         const idx = richiesteLab.value.findIndex((el) => el.uid === row.uid);
         if (idx !== -1) {
           richiesteLab.value.splice(idx, 1);

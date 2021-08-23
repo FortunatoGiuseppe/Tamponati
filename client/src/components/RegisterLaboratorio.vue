@@ -136,7 +136,7 @@ export default defineComponent({
             cap: register.value.cap,
             email: userCr.email,
             uid: userCr.uid,
-            convenzionato: null,
+            approvato: null,
           });
           router.push('/'); //non deve andare nella page lab
           $q.notify({
@@ -162,32 +162,32 @@ export default defineComponent({
       }
     };
 
-    const updateDB = async () => {
-      try {
-        await db.collection('users').doc(register.value.uid).update({
-          tipo_utente: 4,
-          nome: register.value.nome,
-          piva: register.value.piva,
-          indirizzo: register.value.indirizzo,
-          provincia: register.value.provincia,
-          citta: register.value.citta,
-          cap: register.value.cap,
-        });
+    // const updateDB = async () => {
+    //   try {
+    //     await db.collection('users').doc(register.value.uid).update({
+    //       tipo_utente: 4,
+    //       nome: register.value.nome,
+    //       piva: register.value.piva,
+    //       indirizzo: register.value.indirizzo,
+    //       provincia: register.value.provincia,
+    //       citta: register.value.citta,
+    //       cap: register.value.cap,
+    //     });
 
-        $q.notify({
-          type: 'positive',
-          position: 'top',
-          message: 'Anagrafica Aggiornata!',
-        });
-      } catch (error) {
-        $q.notify({
-          type: 'negative',
-          position: 'top',
-          message: 'Errore salvataggio dati!',
-        });
-        console.log(error);
-      }
-    };
+    //     $q.notify({
+    //       type: 'positive',
+    //       position: 'top',
+    //       message: 'Anagrafica Aggiornata!',
+    //     });
+    //   } catch (error) {
+    //     $q.notify({
+    //       type: 'negative',
+    //       position: 'top',
+    //       message: 'Errore salvataggio dati!',
+    //     });
+    //     console.log(error);
+    //   }
+    // };
 
     const saveForm = () => {
       if (props.dati) {

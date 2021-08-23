@@ -51,7 +51,7 @@ export default defineComponent({
           case 3:
             return DatoreHome;
           case 4:
-            if (state.value.convenzionato) {
+            if (state.value.approvato) {
               return LaboratorioHome;
             } else {
               return NonConvenzionatoLaboratorio;
@@ -82,14 +82,9 @@ export default defineComponent({
                 state.value.cf = userDB.codicefiscale;
               }
               state.value.tipo_utente = userDB.tipo_utente;
-              state.value.convenzionato =
-                userDB.convenzionato && userDB.convenzionato == true
-                  ? true
-                  : false || (userDB.convenzionato && userDB.convenzionato == null);
-              state.value.approvato =
-                userDB.approvato && userDB.approvato == true
-                  ? true
-                  : false || (userDB.approvato && userDB.approvato == null);
+              if (userDB.tipo_utente == 2 || userDB.tipo_utente == 4) {
+                state.value.approvato = userDB.approvato;
+              }
             }
           });
       }
