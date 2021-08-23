@@ -18,10 +18,22 @@ import MedicoHome from 'src/components/MedicoHome.vue';
 import DatoreHome from 'src/components/DatoreHome.vue';
 import AmministratoreHome from 'src/components/AmministratoreHome.vue';
 import AslHome from 'src/components/AslHome.vue';
+import NonConvenzionatoLaboratorio from 'src/components/NonConvenzionatoLaboratorio.vue';
+import NonApprovatoMedico from 'src/components/NonApprovatoMedico.vue';
 
 export default defineComponent({
   name: 'PageIndex',
-  components: { NoLoginHome, CittadinoHome, MedicoHome, DatoreHome, LaboratorioHome, AmministratoreHome, AslHome },
+  components: {
+    NoLoginHome,
+    CittadinoHome,
+    MedicoHome,
+    DatoreHome,
+    LaboratorioHome,
+    AmministratoreHome,
+    AslHome,
+    NonConvenzionatoLaboratorio,
+    NonApprovatoMedico,
+  },
   setup() {
     const { isAuthenticated, user } = useAuth(auth);
     const state = useState();
@@ -31,11 +43,19 @@ export default defineComponent({
           case 1:
             return CittadinoHome;
           case 2:
-            return MedicoHome;
+            if (state.value.approvato) {
+              return MedicoHome;
+            } else {
+              return NonApprovatoMedico;
+            }
           case 3:
             return DatoreHome;
           case 4:
-            return LaboratorioHome;
+            if (state.value.convenzionato) {
+              return LaboratorioHome;
+            } else {
+              return NonConvenzionatoLaboratorio;
+            }
           case 5:
             return AmministratoreHome;
           case 6:
@@ -62,6 +82,14 @@ export default defineComponent({
                 state.value.cf = userDB.codicefiscale;
               }
               state.value.tipo_utente = userDB.tipo_utente;
+              state.value.convenzionato =
+                userDB.convenzionato && userDB.convenzionato == true
+                  ? true
+                  : false || (userDB.convenzionato && userDB.convenzionato == null);
+              state.value.approvato =
+                userDB.approvato && userDB.approvato == true
+                  ? true
+                  : false || (userDB.approvato && userDB.approvato == null);
             }
           });
       }

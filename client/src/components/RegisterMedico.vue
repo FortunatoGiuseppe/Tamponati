@@ -111,7 +111,7 @@ export default defineComponent({
             datanasciata: register.value.datanasciata,
             email: userCr.email,
             uid: userCr.uid,
-            approvato: false,
+            approvato: null,
           });
           router.push('/');
           $q.notify({

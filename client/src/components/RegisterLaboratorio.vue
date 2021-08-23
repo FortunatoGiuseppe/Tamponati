@@ -136,7 +136,7 @@ export default defineComponent({
             cap: register.value.cap,
             email: userCr.email,
             uid: userCr.uid,
-            approvato: false,
+            convenzionato: null,
           });
           router.push('/'); //non deve andare nella page lab
           $q.notify({
@@ -172,7 +172,6 @@ export default defineComponent({
           provincia: register.value.provincia,
           citta: register.value.citta,
           cap: register.value.cap,
-          approvato: false,
         });
 
         $q.notify({

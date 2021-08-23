@@ -71,7 +71,7 @@ export default defineComponent({
     ];
     db.collection('users')
       .where('tipo_utente', '==', 2)
-      .where('approvato', '==', false)
+      .where('approvato', '==', null)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -80,7 +80,7 @@ export default defineComponent({
       });
     db.collection('users')
       .where('tipo_utente', '==', 4)
-      .where('approvato', '==', false)
+      .where('convenzionato', '==', null)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -88,13 +88,14 @@ export default defineComponent({
         });
       });
     const doApprova = async (type, row, value) => {
-      await db.collection('users').doc(row.uid).update({ approvato: value });
       if (type == 'lab') {
+        await db.collection('users').doc(row.uid).update({ convenzionato: value });
         const idx = richiesteLab.value.findIndex((el) => el.uid === row.uid);
         if (idx !== -1) {
           richiesteLab.value.splice(idx, 1);
         }
       } else {
+        await db.collection('users').doc(row.uid).update({ approvato: value });
         const idx = richiesteMed.value.findIndex((el) => el.uid === row.uid);
         if (idx !== -1) {
           richiesteMed.value.splice(idx, 1);
