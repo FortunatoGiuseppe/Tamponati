@@ -109,11 +109,95 @@
             :rules="[(val) => !!val || 'Campo Richiesto']"
           />
         </q-card-section>
+         <q-card-section>
+        <div class="text-h6">Compila Questionario</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section class=" q-ma-xs">
+          <text-subtitle1>1) Attualmente è malato?</text-subtitle1>
+          <q-option-group
+            v-model="register.malato"
+            name="malato"
+            :options="option"
+           
+            color="primary"
+            inline
+          ></q-option-group>
+
+          <text-subtitle1>2) Ha febbre?</text-subtitle1>
+          <q-option-group
+            v-model="register.febbre"
+            name="febbre"
+            :options="option"
+           
+            color="primary"
+            inline
+          ></q-option-group>
+          
+          <text-subtitle1>3) Soffre di allergie al lattice, a qualche cibo, a farmaci o ai componenti del vaccino?
+          </text-subtitle1>
+          
+          <q-option-group
+            v-model="register.allergie"
+            name="allergie"
+            :options="option"
+           
+            color="primary"
+            inline
+          ></q-option-group>
+          <text-subtitle1 v-if="register.allergie == true"> Se sì, specificare: </text-subtitle1>
+          <q-input
+            v-if="register.allergie == true"
+            v-model="register.specificaAllergie"
+            outlined
+            label="Specifica allergie:"
+            :rules="[(val) => !!val || 'Campo Richiesto']"
+          />
+
+          <text-subtitle1>4) Soffre di malattie cardiache o polmonari, asma, malatte renali, diabete, anemia o
+altre malattie del sangue?
+          </text-subtitle1>
+          <q-option-group
+            v-model="register.malattieGravi"
+            name="malattieGravi"
+            :options="option"
+           
+            color="primary"
+            inline
+          ></q-option-group>
+
+          <text-subtitle1>5) Si trova in una condizione di compromissione del sistema immunitario?
+(Esempio: cancro, leucemia, linfoma, HIV/AIDS, trapianto)?
+          </text-subtitle1>
+          <q-option-group
+            v-model="register.compromissioniSistema"
+            name="compromissioni sistema immunitario"
+            :options="option"
+           
+            color="primary"
+            inline
+          ></q-option-group>
+
+           <text-subtitle1>6) Negli ultimi 3 mesi, ha assunto farmaci che indeboliscono il sistema immunitario
+(esempio: cortisone, prednisone o altri steroidi) o farmaci antitumorali, oppure ha
+subito trattamenti con radiazioni?
+          </text-subtitle1>
+                    <q-option-group
+            v-model="register.assunzioneFarmaci"
+            name="farmaci"
+            :options="option"
+           
+            color="primary"
+            inline
+          ></q-option-group>
+
+
+        </q-card-section>
         <q-separator />
 
         <q-card-actions align="right">
           <q-btn v-close-popup label="Annulla" color="grey" flat />
-          <q-btn type="submit" color="primary" label="Prenota" flat />
+          <q-btn type="submit" color="primary" label="Prenota" flat/>
         </q-card-actions>
       </q-form>
     </q-card>
@@ -145,9 +229,18 @@ export default defineComponent({
     const provincia = ref('');
     const id_laboratorio = ref('');
     const data = ref('');
-    const register = ref({});
+    const register = ref({
+      malato: null,
+      febbre: null,
+      allergie: null,
+      SpecificaAllergie:null,
+      malattieGravi: null,
+      compromissioniSistema: null,
+      assunzioneFarmaci:  null,
+    });
 
     const optionsProvince = ref([]);
+
     db.collection('province')
       .get()
       .then((querySnapshot) => {
@@ -229,6 +322,15 @@ export default defineComponent({
               cvv: register.value.cvv,
               confermato: 0,
               esito: null,
+              //Questionario
+              malato: register.value.malato,
+              febbre: register.value.febbre,
+              allergie: register.value.allergie,
+              SpecificaAllergie: register.value.specificaAllergie,
+              malattieGravi: register.value.malattieGravi,
+              compromissioniSistema: register.value.compromissioniSistema,
+              assunzioneFarmaci:  register.value.assunzioneFarmaci,
+
             });
           } else {
             await db.collection('prenotazioni').add({
@@ -241,6 +343,14 @@ export default defineComponent({
               codicefiscale: state.value.cf,
               confermato: 0,
               esito: null,
+              //Questionario
+              malato: register.value.malato,
+              febbre: register.value.febbre,
+              allergie: register.value.allergie,
+              SpecificaAllergie: register.value.specificaAllergie,
+              malattieGravi: register.value.malattieGravi,
+              compromissioniSistema: register.value.compromissioniSistema,
+              assunzioneFarmaci:  register.value.assunzioneFarmaci,
             });
           }
         } else if (state.value.tipo_utente == 2) {
@@ -254,6 +364,14 @@ export default defineComponent({
             codicefiscale: register.value.codicefiscale,
             confermato: 0,
             esito: null,
+            //Questionario
+              malato: register.value.malato,
+              febbre: register.value.febbre,
+              allergie: register.value.allergie,
+              SpecificaAllergie: register.value.specificaAllergie,
+              malattieGravi: register.value.malattieGravi,
+              compromissioniSistema: register.value.compromissioniSistema,
+              assunzioneFarmaci:  register.value.assunzioneFarmaci,
           });
         } else if (state.value.tipo_utente == 3) {
           if (register.value.pagamento == 'Online') {
@@ -271,6 +389,14 @@ export default defineComponent({
               cvv: register.value.cvv,
               confermato: 0,
               esito: null,
+               //Questionario
+              malato: register.value.malato,
+              febbre: register.value.febbre,
+              allergie: register.value.allergie,
+              SpecificaAllergie: register.value.specificaAllergie,
+              malattieGravi: register.value.malattieGravi,
+              compromissioniSistema: register.value.compromissioniSistema,
+              assunzioneFarmaci:  register.value.assunzioneFarmaci,
             });
           } else {
             await db.collection('prenotazioni').add({
@@ -283,6 +409,14 @@ export default defineComponent({
               codicefiscale: register.value.codicefiscale,
               confermato: 0,
               esito: null,
+              //Questionario
+              malato: register.value.malato,
+              febbre: register.value.febbre,
+              allergie: register.value.allergie,
+              SpecificaAllergie: register.value.specificaAllergie,
+              malattieGravi: register.value.malattieGravi,
+              compromissioniSistema: register.value.compromissioniSistema,
+              assunzioneFarmaci:  register.value.assunzioneFarmaci,
             });
           }
         }
@@ -313,6 +447,20 @@ export default defineComponent({
       optionsProvince,
       optionsLaboratori,
       optionsPayment: ['Online', 'In Struttura'],
+       option: [
+        {
+          label: 'Si',
+          value: true
+        },
+        {
+          label: 'No',
+          value: false
+        },
+        {
+          label: 'Non lo so',
+          value: null
+        }
+      ],
       getLabs,
       tipotampone,
       provincia,

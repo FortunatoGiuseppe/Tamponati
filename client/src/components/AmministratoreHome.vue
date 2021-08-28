@@ -80,7 +80,7 @@ export default defineComponent({
       });
     db.collection('users')
       .where('tipo_utente', '==', 4)
-      .where('convenzionato', '==', null)
+      .where('approvato', '==', null)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

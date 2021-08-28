@@ -35,6 +35,11 @@ const routes = [
     children: [{ path: '', component: () => import('pages/CalendarioLabPage.vue') }],
   },
   {
+    path: '/questionari',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('components/VisualizzaQuestionari.vue') }],
+  },
+  {
     path: '/chisiamo',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/chiSiamo.vue') }],

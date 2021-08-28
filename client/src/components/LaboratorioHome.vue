@@ -96,23 +96,33 @@
     <q-page-sticky position="bottom-right" :offset="[24, 24]">
       <q-btn fab icon="date_range" label="Calendario" to="/calendario" color="primary" />
     </q-page-sticky>
+    <q-page-sticky position="bottom-right" :offset="[24, 95]">
+      <q-btn fab icon="date_range" label="Questionari" color="primary"  @click="openQuestionari"/>
+    </q-page-sticky>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref, watch } from 'vue';
 import { date } from 'quasar';
+import { useQuasar } from 'quasar';
 import firebase from 'firebase/app';
 import { db } from 'boot/firebase';
 import { useState } from 'src/modules/useState.js';
 import Vue3ChartJs from '@j-t-mcc/vue3-chartjs';
-
+import VisualizzaQuestionari from 'src/components/VisualizzaQuestionari.vue';
 export default defineComponent({
   name: 'LaboratorioHome',
   components: { Vue3ChartJs },
   setup() {
     const state = useState();
     const chartRef = ref(null);
+    const $q = useQuasar();
+    const openQuestionari = () => {
+      $q.dialog({
+        component: VisualizzaQuestionari,
+      }).onOk(async (val) => {});
+    };
     const doughnutChart = {
       id: 'doughnut',
       type: 'pie',
@@ -303,6 +313,7 @@ export default defineComponent({
       updateDataTampone,
       chartRef,
       doughnutChart,
+      openQuestionari
     };
   },
 });
