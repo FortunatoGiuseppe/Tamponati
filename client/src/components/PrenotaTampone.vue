@@ -145,14 +145,6 @@
             color="primary"
             inline
           ></q-option-group>
-          <text-subtitle1 v-if="register.allergie == true"> Se sì, specificare: </text-subtitle1>
-          <q-input
-            v-if="register.allergie == true"
-            v-model="register.specificaAllergie"
-            outlined
-            label="Specifica allergie:"
-            :rules="[(val) => !!val || 'Campo Richiesto']"
-          />
 
           <text-subtitle1>4) Soffre di malattie cardiache o polmonari, asma, malatte renali, diabete, anemia o
 altre malattie del sangue?
@@ -229,15 +221,7 @@ export default defineComponent({
     const provincia = ref('');
     const id_laboratorio = ref('');
     const data = ref('');
-    const register = ref({
-      malato: null,
-      febbre: null,
-      allergie: null,
-      SpecificaAllergie:null,
-      malattieGravi: null,
-      compromissioniSistema: null,
-      assunzioneFarmaci:  null,
-    });
+    const register = ref({});
 
     const optionsProvince = ref([]);
 
@@ -326,7 +310,6 @@ export default defineComponent({
               malato: register.value.malato,
               febbre: register.value.febbre,
               allergie: register.value.allergie,
-              SpecificaAllergie: register.value.specificaAllergie,
               malattieGravi: register.value.malattieGravi,
               compromissioniSistema: register.value.compromissioniSistema,
               assunzioneFarmaci:  register.value.assunzioneFarmaci,
@@ -347,7 +330,6 @@ export default defineComponent({
               malato: register.value.malato,
               febbre: register.value.febbre,
               allergie: register.value.allergie,
-              SpecificaAllergie: register.value.specificaAllergie,
               malattieGravi: register.value.malattieGravi,
               compromissioniSistema: register.value.compromissioniSistema,
               assunzioneFarmaci:  register.value.assunzioneFarmaci,
@@ -368,7 +350,6 @@ export default defineComponent({
               malato: register.value.malato,
               febbre: register.value.febbre,
               allergie: register.value.allergie,
-              SpecificaAllergie: register.value.specificaAllergie,
               malattieGravi: register.value.malattieGravi,
               compromissioniSistema: register.value.compromissioniSistema,
               assunzioneFarmaci:  register.value.assunzioneFarmaci,
@@ -393,7 +374,6 @@ export default defineComponent({
               malato: register.value.malato,
               febbre: register.value.febbre,
               allergie: register.value.allergie,
-              SpecificaAllergie: register.value.specificaAllergie,
               malattieGravi: register.value.malattieGravi,
               compromissioniSistema: register.value.compromissioniSistema,
               assunzioneFarmaci:  register.value.assunzioneFarmaci,
@@ -413,7 +393,6 @@ export default defineComponent({
               malato: register.value.malato,
               febbre: register.value.febbre,
               allergie: register.value.allergie,
-              SpecificaAllergie: register.value.specificaAllergie,
               malattieGravi: register.value.malattieGravi,
               compromissioniSistema: register.value.compromissioniSistema,
               assunzioneFarmaci:  register.value.assunzioneFarmaci,

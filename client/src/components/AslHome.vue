@@ -24,9 +24,15 @@
               row-key="name"
               :visible-columns="visibleColumns"
             >
-              <template #header-cell-codicefiscale="props">
+              <template #header-cell-laboratorio="props">
                 <q-th :props="props">
-                  <q-icon name="badge" size="2em"></q-icon>
+                  <q-icon name="biotech" size="2em"></q-icon>
+                  {{ props.col.label }}
+                </q-th>
+              </template>
+              <template #header-cell-citta="props">
+                <q-th :props="props">
+                  <q-icon name="location_city" size="2em"></q-icon>
                   {{ props.col.label }}
                 </q-th>
               </template>
@@ -39,18 +45,6 @@
               <template #header-cell-esito="props">
                 <q-th :props="props">
                   <q-icon name="coronavirus" size="2em"></q-icon>
-                  {{ props.col.label }}
-                </q-th>
-              </template>
-              <template #header-cell-prenotatoda="props">
-                <q-th :props="props">
-                  <q-icon name="supervisor_account" size="2em"></q-icon>
-                  {{ props.col.label }}
-                </q-th>
-              </template>
-              <template #header-cell-laboratorio="props">
-                <q-th :props="props">
-                  <q-icon name="biotech" size="2em"></q-icon>
                   {{ props.col.label }}
                 </q-th>
               </template>
@@ -217,11 +211,12 @@ export default defineComponent({
     };
     return {
       tab: ref('one'),
-      visibleColumns: ref(['laboratorio','data','esito']),
-      visibleColumns2: ref(['codicefiscale', 'data','prenotatoda', 'email']),
+      visibleColumns: ref(['laboratorio','citta','data','esito']),
+      visibleColumns2: ref(['codicefiscale','data','prenotatoda', 'email']),
       columns: [
         { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
-        { name: 'data', label: 'data', field: 'datatampone', sortable: true, align: 'center', sortable: true, sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'), },
+        { name: 'citta', label: 'città', field: 'citta', sortable: true, align: 'left' },
+        { name: 'data', label: 'data', field: 'data tampone', sortable: true, align: 'center', sortable: true, sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'), },
         { name: 'esito', label: 'esito', field: 'esito', sortable: true, align: 'left' },
         {
           name: 'tipotampone',
@@ -256,8 +251,6 @@ export default defineComponent({
     };
   },
   created() {
-    statistici: ref([]);
-    chartRef : ref(null);
     //prende cose da DB
     db.collection('prenotazioni')
       .where('confermato', '==', 1)
@@ -287,6 +280,7 @@ export default defineComponent({
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                  data.laboratorio = doc.data().nome;
+                 data.citta = doc.data().citta;
                 });
           });
           this.statistici.push(data);
@@ -348,6 +342,7 @@ export default defineComponent({
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
+                 data.prenotatoda = doc.data().codicefiscale;
                  data.email = doc.data().email;
                 });
           });
