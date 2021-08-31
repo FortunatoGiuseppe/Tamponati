@@ -57,12 +57,7 @@
 
               <template #top>
                 <div class="text-h7 text-weight-bold q-pr-xl">Mostra filtri:</div>
-                <q-toggle
-                  v-model="value"
-                  color="primary"
-                  keep-color
-                  class ="q-pr-xl"
-                ></q-toggle>
+                <q-toggle v-model="value" color="primary" keep-color class="q-pr-xl"></q-toggle>
                 <q-select
                   v-if="value == true"
                   v-model="visibleColumns"
@@ -96,7 +91,7 @@
               row-key="name"
               :visible-columns="visibleColumns2"
             >
-            <template #header-cell-codicefiscale="props">
+              <template #header-cell-codicefiscale="props">
                 <q-th :props="props">
                   <q-icon name="badge" size="2em"></q-icon>
                   {{ props.col.label }}
@@ -140,12 +135,7 @@
               </template>
               <template #top>
                 <div class="text-h7 text-weight-bold q-pr-xl">Mostra filtri:</div>
-                <q-toggle
-                            v-model="value2"
-                            color="primary"
-                            keep-color
-                            class ="q-pr-xl"
-                        ></q-toggle>
+                <q-toggle v-model="value2" color="primary" keep-color class="q-pr-xl"></q-toggle>
                 <q-select
                   v-if="value2 == true"
                   v-model="visibleColumns2"
@@ -171,14 +161,14 @@
       </q-tab-panels>
     </q-card>
     <div class="col-4">
-        <vue3-chart-js
-          :id="doughnutChart.id"
-          ref="chartRef"
-          :type="doughnutChart.type"
-          :data="doughnutChart.data"
-          :options="doughnutChart.options"
-        />
-      </div>
+      <vue3-chart-js
+        :id="doughnutChart.id"
+        ref="chartRef"
+        :type="doughnutChart.type"
+        :data="doughnutChart.data"
+        :options="doughnutChart.options"
+      />
+    </div>
   </q-page>
 </template>
 
@@ -193,9 +183,6 @@ export default defineComponent({
   components: { Vue3ChartJs },
 
   data() {
-    //dbIstance= db.collection('prenotazioni');
-    //var query = dbIstance.where("capital", "==", true);
-    //dbIstance.orderBy("state").orderBy("population", "desc");
     const chartRef = ref(null);
     const doughnutChart = {
       id: 'doughnut',
@@ -211,12 +198,20 @@ export default defineComponent({
     };
     return {
       tab: ref('one'),
-      visibleColumns: ref(['laboratorio','citta','data','esito']),
-      visibleColumns2: ref(['codicefiscale','data','prenotatoda', 'email']),
+      visibleColumns: ref(['laboratorio', 'citta', 'data', 'esito']),
+      visibleColumns2: ref(['codicefiscale', 'data', 'prenotatoda', 'email']),
       columns: [
         { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
         { name: 'citta', label: 'città', field: 'citta', sortable: true, align: 'left' },
-        { name: 'data', label: 'data', field: 'data tampone', sortable: true, align: 'center', sortable: true, sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'), },
+        {
+          name: 'data',
+          label: 'data',
+          field: 'datatampone',
+          sortable: true,
+          align: 'center',
+          sortable: true,
+          sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'),
+        },
         { name: 'esito', label: 'esito', field: 'esito', sortable: true, align: 'left' },
         {
           name: 'tipotampone',
@@ -231,7 +226,15 @@ export default defineComponent({
         { name: 'cognome', label: 'cognome', field: 'cognome', sortable: true, align: 'left' },
         { name: 'nome', label: 'nome', field: 'nome', sortable: true, align: 'left' },
         { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
-        { name: 'data', label: 'data', field: 'datatampone', sortable: true, align: 'center', sortable: true, sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'), },
+        {
+          name: 'data',
+          label: 'data',
+          field: 'datatampone',
+          sortable: true,
+          align: 'center',
+          sortable: true,
+          sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'),
+        },
         {
           name: 'tipotampone',
           label: 'tipo tampone',
@@ -268,43 +271,42 @@ export default defineComponent({
             tipotampone: doc.data().tipotampone,
             prenotatoda: doc.data().prenotatoda,
           };
-          if(doc.data().esito==true){
-              data.esito= 'positivo';
+          if (doc.data().esito == true) {
+            data.esito = 'positivo';
           } else {
-              data.esito= 'negativo';
+            data.esito = 'negativo';
           }
           db.collection('users')
             .where('tipo_utente', '==', 4)
             .where('uid', '==', data.laboratorio)
             .get()
             .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                 data.laboratorio = doc.data().nome;
-                 data.citta = doc.data().citta;
-                });
-          });
+              querySnapshot.forEach((doc) => {
+                data.laboratorio = doc.data().nome;
+                data.citta = doc.data().citta;
+              });
+            });
           this.statistici.push(data);
         });
         watch(
-      statistici,
-      () => {
-        const positivi = statistici.reduce((acc, val) => acc + (val.esito === true ? 1 : 0), 0);
-        const negativi = statistici.reduce((acc, val) => acc + (val.esito === false ? 1 : 0), 0);
+          statistici,
+          () => {
+            const positivi = statistici.reduce((acc, val) => acc + (val.esito === true ? 1 : 0), 0);
+            const negativi = statistici.reduce((acc, val) => acc + (val.esito === false ? 1 : 0), 0);
 
-        doughnutChart.data.datasets = [
-          {
-            backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
-            data: [positivi, negativi],
-            hoverOffset: 4,
+            doughnutChart.data.datasets = [
+              {
+                backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)'],
+                data: [positivi, negativi],
+                hoverOffset: 4,
+              },
+            ];
+
+            chartRef.value.update(250);
           },
-        ];
-
-        chartRef.value.update(250);
-      },
-      { deep: true }
-    );
+          { deep: true }
+        );
       });
-      
 
     //prende cose da DB
     db.collection('prenotazioni')
@@ -323,29 +325,29 @@ export default defineComponent({
             tipotampone: doc.data().tipotampone,
             prenotatoda: doc.data().prenotatoda,
           };
-          if(doc.data().esito==true){
-              data.esito= 'positivo';
+          if (doc.data().esito == true) {
+            data.esito = 'positivo';
           } else {
-              data.esito= 'negativo';
+            data.esito = 'negativo';
           }
           db.collection('users')
             .where('tipo_utente', '==', 4)
             .where('uid', '==', data.laboratorio)
             .get()
             .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                 data.laboratorio = doc.data().nome;
-                });
+              querySnapshot.forEach((doc) => {
+                data.laboratorio = doc.data().nome;
+              });
             });
           db.collection('users')
             .where('uid', '==', data.prenotatoda)
             .get()
             .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                 data.prenotatoda = doc.data().codicefiscale;
-                 data.email = doc.data().email;
-                });
-          });
+              querySnapshot.forEach((doc) => {
+                data.prenotatoda = doc.data().codicefiscale;
+                data.email = doc.data().email;
+              });
+            });
           this.risultati.push(data);
         });
       });
