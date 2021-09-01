@@ -167,9 +167,10 @@ export default defineComponent({
   name: 'AgendaPersonale',
   emits: [...useDialogPluginComponent.emits],
   setup() {
-    const { dialogRef, onDialogOK, onDialogHide } = useDialogPluginComponent();
+    const { dialogRef, onDialogHide } = useDialogPluginComponent();
     const state = useState();
     const prenotazioni = ref([]);
+    const laboratori = ref([]);
     const tamponiEseguiti = ref([]);
 
     const colonne1 = [
@@ -181,11 +182,18 @@ export default defineComponent({
         sortable: true,
         sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'),
       },
-      { name: 'codicefiscale', label: 'codice fiscale', field: 'codicefiscale', sortable: true, align: 'left' },
-      { name: 'cognome', label: 'cognome', field: 'cognome', sortable: true, align: 'left' },
-      { name: 'nome', label: 'nome', field: 'nome', sortable: true, align: 'left' },
-      { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
-      { name: 'tipotampone', label: 'tipo tampone', field: 'tipotampone', sortable: true },
+      { name: 'codicefiscale', label: 'Codice Fiscale', field: 'codicefiscale', sortable: true, align: 'left' },
+      { name: 'cognome', label: 'Cognome', field: 'cognome', sortable: true, align: 'left' },
+      { name: 'nome', label: 'Nome', field: 'nome', sortable: true, align: 'left' },
+      { name: 'laboratorio', label: 'Laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
+      {
+        name: 'tipotampone',
+        label: 'Tipo Tampone',
+        field: 'tipotampone',
+        align: 'left',
+        sortable: true,
+        sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+      },
     ];
 
     const colonne2 = [
@@ -197,39 +205,45 @@ export default defineComponent({
         sortable: true,
         sort: (a, b) => date.extractDate(a, 'DD/MM/YYYY') - date.extractDate(b, 'DD/MM/YYYY'),
       },
-      { name: 'codicefiscale', label: 'codice fiscale', field: 'codicefiscale', sortable: true, align: 'left' },
-      { name: 'cognome', label: 'cognome', field: 'cognome', sortable: true, align: 'left' },
-      { name: 'nome', label: 'nome', field: 'nome', sortable: true, align: 'left' },
-      { name: 'laboratorio', label: 'laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
-      { name: 'esito', label: 'esito', field: 'esito', sortable: true, align: 'left' },
-      { name: 'tipotampone', label: 'tipo tampone', field: 'tipotampone', sortable: true },
+      { name: 'codicefiscale', label: 'Codice Fiscale', field: 'codicefiscale', sortable: true, align: 'left' },
+      { name: 'cognome', label: 'Cognome', field: 'cognome', sortable: true, align: 'left' },
+      { name: 'nome', label: 'Nome', field: 'nome', sortable: true, align: 'left' },
+      { name: 'laboratorio', label: 'Laboratorio', field: 'laboratorio', sortable: true, align: 'left' },
+      {
+        name: 'tipotampone',
+        label: 'Tipo Tampone',
+        field: 'tipotampone',
+        sortable: true,
+        align: 'left',
+        sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+      },
+      { name: 'esito', label: 'Esito', field: 'esito', sortable: true, align: 'left' },
     ];
+
+    (async () => {
+      const querySnapshot = await db.collection('users').where('tipo_utente', '==', 4).get();
+      querySnapshot.forEach((doc) => {
+        laboratori.value.push(doc.data());
+      });
+    })();
+    const getLabName = (id) => {
+      const lab = laboratori.value.find((el) => el.uid === id);
+      return lab.nome;
+    };
 
     db.collection('prenotazioni')
       .where('prenotatoda', '==', state.value.id)
-      .where('confermato', 'in', [0])
+      .where('confermato', '==', 0)
       .get()
       .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const data = {
-            id: doc.id,
-            data: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
-            codicefiscale: doc.data().codicefiscale,
-            nome: doc.data().nome,
-            cognome: doc.data().cognome,
-            tipotampone: doc.data().tipotampone,
-            laboratorio: doc.data().id_laboratorio,
-          };
-          db.collection('users')
-            .where('tipo_utente', '==', 4)
-            .where('uid', '==', data.laboratorio)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                data.laboratorio = doc.data().nome;
-              });
-            });
-          prenotazioni.value.push(data);
+        prenotazioni.value.push({
+          id: doc.id,
+          data: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
+          codicefiscale: doc.data().codicefiscale,
+          nome: doc.data().nome,
+          cognome: doc.data().cognome,
+          laboratorio: getLabName(doc.data().id_laboratorio),
+          tipotampone: doc.data().tipotampone,
         });
       });
 
@@ -240,37 +254,23 @@ export default defineComponent({
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          const data = {
-            codicefiscale: doc.data().codicefiscale,
-            cognome: doc.data().cognome,
-            nome: doc.data().nome,
-            laboratorio: doc.data().id_laboratorio,
+          tamponiEseguiti.value.push({
+            id: doc.id,
             data: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
-            esito: doc.data().esito,
+            codicefiscale: doc.data().codicefiscale,
+            nome: doc.data().nome,
+            cognome: doc.data().cognome,
+            laboratorio: getLabName(doc.data().id_laboratorio),
             tipotampone: doc.data().tipotampone,
+            esito: doc.data().esito == true ? 'Positivo' : 'Negativo',
             prenotatoda: doc.data().prenotatoda,
-          };
-          if (doc.data().esito == true) {
-            data.esito = 'positivo';
-          } else {
-            data.esito = 'negativo';
-          }
-          db.collection('users')
-            .where('tipo_utente', '==', 4)
-            .where('uid', '==', data.laboratorio)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                data.laboratorio = doc.data().nome;
-              });
-            });
-          tamponiEseguiti.value.push(data);
+          });
         });
       });
 
     return {
-      visibleColumns1: ref(['codicefiscale', 'data', 'laboratorio']),
-      visibleColumns2: ref(['codicefiscale', 'data', 'esito']),
+      visibleColumns1: ref(['data', 'codicefiscale', 'laboratorio']),
+      visibleColumns2: ref(['data', 'codicefiscale', 'laboratorio', 'esito']),
       dialog: ref(false),
       maximizedToggle: ref(true),
       colonne1,
@@ -278,7 +278,6 @@ export default defineComponent({
       prenotazioni,
       tamponiEseguiti,
       dialogRef,
-      onDialogOK,
       onDialogHide,
       value: ref(false),
       value2: ref(false),
