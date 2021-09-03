@@ -254,7 +254,23 @@ export default defineComponent({
     };
   },
   created() {
+    const laboratori = ref([]);
+    (async () => {
+      const querySnapshot = await db.collection('users').where('tipo_utente', '==', 4).get();
+      querySnapshot.forEach((doc) => {
+        laboratori.value.push(doc.data());
+      });
+    })();
+    const getLabName = (id) => {
+      const lab = laboratori.value.find((el) => el.uid === id);
+      return lab.nome;
+    };
+    const getLabCiita = (id) => {
+      const lab = laboratori.value.find((el) => el.uid === id);
+      return lab.citta;
+    };
     //prende cose da DB
+    const statistici = ref([]);
     db.collection('prenotazioni')
       .where('confermato', '==', 1)
       .where('esito', 'in', [true, false])
@@ -265,34 +281,21 @@ export default defineComponent({
             codicefiscale: doc.data().codicefiscale,
             cognome: doc.data().cognome,
             nome: doc.data().nome,
-            laboratorio: doc.data().id_laboratorio,
+            laboratorio: getLabName(doc.data().id_laboratorio),
             datatampone: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
-            esito: doc.data().esito,
+            esito: doc.data().esito == true ? 'Positivo' : 'Negativo',
             tipotampone: doc.data().tipotampone,
             prenotatoda: doc.data().prenotatoda,
+            citta: getLabCiita(doc.data().id_laboratorio),
           };
-          if (doc.data().esito == true) {
-            data.esito = 'positivo';
-          } else {
-            data.esito = 'negativo';
-          }
-          db.collection('users')
-            .where('tipo_utente', '==', 4)
-            .where('uid', '==', data.laboratorio)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                data.laboratorio = doc.data().nome;
-                data.citta = doc.data().citta;
-              });
-            });
           this.statistici.push(data);
         });
+        
         watch(
           statistici,
           () => {
-            const positivi = statistici.reduce((acc, val) => acc + (val.esito === true ? 1 : 0), 0);
-            const negativi = statistici.reduce((acc, val) => acc + (val.esito === false ? 1 : 0), 0);
+            const positivi = statistici.value.reduce((acc, val) => acc + (val.esito === true ? 1 : 0), 0);
+            const negativi = statistici.value.reduce((acc, val) => acc + (val.esito === false ? 1 : 0), 0);
 
             doughnutChart.data.datasets = [
               {
@@ -319,17 +322,12 @@ export default defineComponent({
             codicefiscale: doc.data().codicefiscale,
             cognome: doc.data().cognome,
             nome: doc.data().nome,
-            laboratorio: doc.data().id_laboratorio,
+            laboratorio: getLabName(doc.data().id_laboratorio),
             datatampone: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
-            esito: doc.data().esito,
+             esito: doc.data().esito == true ? 'Positivo' : 'Negativo',
             tipotampone: doc.data().tipotampone,
             prenotatoda: doc.data().prenotatoda,
           };
-          if (doc.data().esito == true) {
-            data.esito = 'positivo';
-          } else {
-            data.esito = 'negativo';
-          }
           db.collection('users')
             .where('tipo_utente', '==', 4)
             .where('uid', '==', data.laboratorio)
