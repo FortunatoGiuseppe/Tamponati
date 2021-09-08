@@ -236,6 +236,7 @@ export default defineComponent({
       .where('confermato', '==', 0)
       .get()
       .then((querySnapshot) => {
+         querySnapshot.forEach((doc) => {
         prenotazioni.value.push({
           id: doc.id,
           data: date.formatDate(doc.data().data.toDate(), 'DD/MM/YYYY'),
@@ -244,6 +245,7 @@ export default defineComponent({
           cognome: doc.data().cognome,
           laboratorio: getLabName(doc.data().id_laboratorio),
           tipotampone: doc.data().tipotampone,
+          });
         });
       });
 
